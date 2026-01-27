@@ -2,7 +2,7 @@ import useAdminStore from "../store/adminStore";
 
 const createUser = async (username, password, role) => {
   const { token } = useAdminStore.getState();
-  const response = await fetch("http://localhost:3000/admin/create-user", {
+  const response = await fetch("https://" + import.meta.env.VITE_API_URL + "/admin/create-user", {
     method: "POST",
     headers: {
       Authorization: `Bearer ${token}`,

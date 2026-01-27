@@ -1,6 +1,8 @@
 const fetchData = async (year, month, search) => {
   const response = await fetch(
-    "http://localhost:3000/api/load?year=" +
+    "https://" +
+      import.meta.env.VITE_API_URL +
+      "/api/load?year=" +
       year +
       "&month=" +
       month +

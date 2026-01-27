@@ -4,7 +4,7 @@ const fetchUsers = async () => {
   const { token } = useAdminStore.getState();
 
   try {
-    const response = await fetch(`http://localhost:3000/admin/load-users`, {
+    const response = await fetch(`https://${import.meta.env.VITE_API_URL}/admin/load-users`, {
       method: "GET",
       headers: {
         Authorization: `Bearer ${token}`,

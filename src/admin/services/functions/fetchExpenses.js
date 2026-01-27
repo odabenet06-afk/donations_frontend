@@ -5,7 +5,7 @@ const fetchExpenses = async (year, month) => {
 
   try {
     const response = await fetch(
-      `http://localhost:3000/admin/load-expenses?month=${month}&year=${year}`,
+      `https://${import.meta.env.VITE_API_URL}/admin/load-expenses?month=${month}&year=${year}`,
       {
         method: "GET",
         headers: {

@@ -3,7 +3,7 @@ import useAdminStore from "../store/adminStore";
 const voidData = async (type, id) => {
   const { token } = useAdminStore.getState();
   const response = await fetch(
-    `http://localhost:3000/admin/void-${type}`,
+    `https://${import.meta.env.VITE_API_URL}/admin/void-${type}`,
 
     {
       method: "POST",

@@ -9,7 +9,7 @@ const createDonor = async (
   notes,
 ) => {
   const { token } = useAdminStore.getState();
-  const response = await fetch("http://localhost:3000/admin/create-donor", {
+  const response = await fetch("https://" + import.meta.env.VITE_API_URL + "/admin/create-donor", {
     method: "POST",
     headers: {
       Authorization: `Bearer ${token}`,

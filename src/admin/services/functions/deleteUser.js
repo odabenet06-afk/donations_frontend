@@ -3,7 +3,7 @@ import useAdminStore from "../store/adminStore";
 const deleteUser = async (username) => {
   const { token } = useAdminStore.getState();
   const response = await fetch(
-    `http://localhost:3000/admin/delete-user`,
+    `https://${import.meta.env.VITE_API_URL}/admin/delete-user`,
 
     {
       method: "POST",

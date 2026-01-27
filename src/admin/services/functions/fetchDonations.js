@@ -5,7 +5,7 @@ const fetchDonations = async (year, month, search) => {
 
   try {
     const response = await fetch(
-      `http://localhost:3000/admin/load-donations?month=${month}&year=${year}&search=${search}`,
+      `https://${import.meta.env.VITE_API_URL}/admin/load-donations?month=${month}&year=${year}&search=${search}`,
       {
         method: "GET",
         headers: {

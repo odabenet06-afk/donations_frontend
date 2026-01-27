@@ -2,7 +2,7 @@ import useAdminStore from "../store/adminStore";
 
 const editUser = async (username, password, role, before) => {
   const { token } = useAdminStore.getState();
-  const response = await fetch("http://localhost:3000/admin/edit-user", {
+  const response = await fetch("https://" + import.meta.env.VITE_API_URL + "/admin/edit-user", {
     method: "POST",
     headers: {
       Authorization: `Bearer ${token}`,

@@ -10,7 +10,7 @@ const editDonor = async (
   donor_public_id
 ) => {
   const { token } = useAdminStore.getState();
-  const response = await fetch("http://localhost:3000/admin/edit-donor", {
+  const response = await fetch("https://" + import.meta.env.VITE_API_URL + "/admin/edit-donor", {
     method: "POST",
     headers: {
       Authorization: `Bearer ${token}`,

@@ -9,7 +9,7 @@ const editProject = async (
   id,
 ) => {
   const { token } = useAdminStore.getState();
-  const response = await fetch("http://localhost:3000/admin/edit-project", {
+  const response = await fetch("https://" + import.meta.env.VITE_API_URL + "/admin/edit-project", {
     method: "POST",
     headers: {
       Authorization: `Bearer ${token}`,

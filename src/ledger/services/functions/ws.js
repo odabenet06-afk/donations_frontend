@@ -8,7 +8,9 @@ export function initReloadSocket() {
 
   if (socket) return;
 
-  const socketUrl = "ws://localhost:3000";
+  const socketUrl = "ws://" + import.meta.env.VITE_API_URL;
+
+  console.log(socketUrl);
 
   console.log("Initializing WS:", socketUrl);
 

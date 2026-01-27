@@ -5,7 +5,7 @@ const fetchLogs = async (from, to) => {
 
   try {
     const response = await fetch(
-      `http://localhost:3000/admin/load-logs?from=${from}&to=${to}`,
+      `https://${import.meta.env.VITE_API_URL}/admin/load-logs?from=${from}&to=${to}`,
       {
         method: "GET",
         headers: {
