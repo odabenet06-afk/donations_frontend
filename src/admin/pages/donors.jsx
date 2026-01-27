@@ -1,9 +1,16 @@
-import React from 'react'
+import React from "react";
+import useAdminStore from "../services/store/adminStore";
+import DonorList from "../components/donorList";
 
-const donors = () => {
+const Donors = () => {
+  const { donors } = useAdminStore();
+
   return (
-    <div>donors</div>
-  )
-}
+    <div>
+      
+      <DonorList donors={donors}/>
+    </div>
+  );
+};
 
-export default donors
+export default Donors;

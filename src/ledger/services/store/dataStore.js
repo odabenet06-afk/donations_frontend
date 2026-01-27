@@ -1,6 +1,8 @@
-import {create} from 'zustand'
+import { create } from "zustand";
 
-const useDataStore = create ((set) => ({
-    data: null,
-    setData: (newData) => set({data: newData}),
-}))
+const useDataStore = create((set) => ({
+  storeData: null,
+  setDataStore: (d) => set({ storeData: d }),
+}));
+
+export default useDataStore;

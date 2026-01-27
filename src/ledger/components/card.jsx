@@ -4,8 +4,11 @@ import upward from "../../assets/icons/upward.png";
 import wallet from "../../assets/icons/wallet.png";
 
 const card = ({ data, date }) => {
+  if (!data || data.amount === undefined) {
+    return <div className="hidden lg:block lg:col-span-1"></div>;
+  }
   return (
-    <div className="border border-slate-200 h-60 p-8 col-span-1 bg-white rounded-4xl">
+    <div className="shadow-lg h-60 p-8 col-span-1 lg:col-span-2 bg-white rounded-4xl">
       <div className="flex flex-col gap-5 w-full h-full">
         <div className="bg-slate-100 rounded-xl p-2 w-10 h-10">
           <img

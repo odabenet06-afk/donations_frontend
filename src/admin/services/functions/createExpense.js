@@ -1,0 +1,36 @@
+import useAdminStore from "../store/adminStore";
+
+const createExpense = async (
+  amount,
+  currency,
+  category,
+  description,
+  project_name,
+  attachment_url,
+) => {
+  const { token } = useAdminStore.getState();
+  const response = await fetch("http://localhost:3000/admin/create-expense", {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      expenseData: {
+        amount,
+        currency,
+        category,
+        description,
+        project_name,
+        attachment_url,
+      },
+    }),
+  });
+  const data = await response.json();
+  if (!response.ok) {
+    return { success: false, error: data.error };
+  }
+  return { success: true, id: data.id };
+};
+
+export default createExpense;

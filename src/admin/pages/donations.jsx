@@ -1,7 +1,15 @@
 import React from "react";
+import useAdminStore from "../services/store/adminStore";
+import Donations from "../components/donationsMain";
 
 const donations = () => {
-  return <div>donations</div>;
+  const { donations } = useAdminStore();
+
+  return (
+    <div>
+      <Donations donations={donations} />
+    </div>
+  );
 };
 
 export default donations;

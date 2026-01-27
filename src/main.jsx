@@ -9,46 +9,49 @@ import Donors from "./admin/pages/donors.jsx";
 import Expenses from "./admin/pages/expenses.jsx";
 import Users from "./admin/pages/users.jsx";
 import AdminProjects from "./admin/pages/projects.jsx";
-import Dashboard from "./admin/pages/dashboard.jsx"
+import Dashboard from "./admin/pages/dashboard.jsx";
+import PublicRoot from "./ledger/roots/publicRoot.jsx";
+import AdminRoot from "./admin/roots/adminRoot.jsx";
+import LoginPage from "./admin/pages/logIn.jsx";
+import ProtectedRoute from "./admin/roots/protectedRoute.jsx";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Home />,
-  },
-  {
-    path: "/projects",
-    element: <Projects />,
-  },
-  {
-    path: "/admin",
-    element: <Projects />,
+    element: <PublicRoot />,
     children: [
-       {
-        path: "dashboard",
-        element: <Dashboard />,
+      {
+        path: "/",
+        element: <Home />,
       },
       {
-        path: "projects",
-        element: <AdminProjects />,
-      },
-      {
-        path: "donors",
-        element: <Donors />,
-      },
-      {
-        path: "donations",
-        element: <Donations />,
-      },
-      {
-        path: "expenses",
-        element: <Expenses />,
-      },
-      {
-        path: "users",
-        element: <Users />,
+        path: "/projects",
+        element: <Projects />,
       },
     ],
+  },
+
+  {
+    path: "/admin",
+    element: <ProtectedRoute />,
+    children: [
+      {
+        path: "",
+        element: <AdminRoot />,
+        children: [
+          { path: "dashboard", element: <Dashboard /> },
+          { path: "project", element: <AdminProjects /> },
+          { path: "donors", element: <Donors /> },
+          { path: "donations", element: <Donations /> },
+          { path: "expenses", element: <Expenses /> },
+          { path: "users", element: <Users /> },
+        ],
+      },
+    ],
+  },
+  {
+    path: "/login",
+    element: <LoginPage />,
   },
 ]);
 

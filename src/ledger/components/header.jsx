@@ -14,11 +14,13 @@ const header = () => {
         <h1 className="text-lg md:text-xl font-bold">OPENHANDS</h1>
       </div>
 
-      <div className="flex gap-4 text-md pr-4">
+      <div className="flex gap-4 lg:gap-8 lg:pr-8 text-md pr-4">
         <NavLink
           to="/"
           className={({ isActive }) =>
-            isActive ? "text-black font-semibol" : " text-gray-400 font-semibol"
+            isActive
+              ? "text-black font-semibold lg:text-xl"
+              : " text-gray-400 lg:text-xl"
           }
         >
           HOME
@@ -27,7 +29,9 @@ const header = () => {
         <NavLink
           to="/projects"
           className={({ isActive }) =>
-            isActive ? "text-black font-semibold" : "text-gray-400 font-semibol"
+            isActive
+              ? "text-black font-semibold lg:text-xl"
+              : "text-gray-400  lg:text-xl"
           }
         >
           PROJECTS
