@@ -8,7 +8,7 @@ export function initReloadSocket() {
 
   if (socket) return;
 
-  const socketUrl = "ws://" + import.meta.env.VITE_API_URL;
+  const socketUrl = "wss://" + import.meta.env.VITE_API_URL;
 
   console.log(socketUrl);
 
