@@ -4,14 +4,14 @@ import fetchExpenses from "../services/functions/fetchExpenses";
 import ExpenseFilter from "./expenseFilter";
 import ExpenseRow from "./expenseRow";
 import ConfirmVoidModal from "../modals/confirmVoidModal";
-import CreateExpenseModal from "../modals/createExpenseModal"; // Import the modal
+import CreateExpenseModal from "../modals/createExpenseModal"; 
 
 const Expenses = ({ expenses }) => {
   const { setExpenses } = useAdminStore();
   const today = new Date();
 
   const [deleteModal, setDeleteModal] = useState(false);
-  const [createModal, setCreateModal] = useState(false); // Create modal state
+  const [createModal, setCreateModal] = useState(false);
   const [selectedExpenseId, setSelectedExpenseId] = useState(null);
 
   const [year, setYear] = useState(today.getFullYear());
@@ -66,7 +66,7 @@ const Expenses = ({ expenses }) => {
 
   return (
     <div className="p-5 flex flex-col h-full max-w-full">
-      {/* Header Summary - Now with centered "New Expense" Button */}
+      {/* Header Summary */}
       <div className="bg-white shadow-lg mb-7 rounded-3xl p-6 flex flex-col md:flex-row justify-between items-center gap-6 border border-gray-50">
         <div className="text-center md:text-left">
           <h1 className="text-xl font-bold text-slate-800">Expense Tracking</h1>

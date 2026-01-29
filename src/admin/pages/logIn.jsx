@@ -16,7 +16,6 @@ const LogIn = () => {
       setError(result.error);
       return;
     }
-    console.log(result.role);
     navigate(result.role === "admin" ? "/admin/dashboard" : "/admin/donors", {
       replace: true,
     });

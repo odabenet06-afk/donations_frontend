@@ -10,8 +10,7 @@ const CreateDonorModal = ({ onClose }) => {
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [notes, setNotes] = useState("");
-  const [privacyPreference, setPrivacyPreference] =
-    useState("SHOW_NAME_PUBLICLY");
+  const [privacyPreference, setPrivacyPreference] = useState("SHOW_ID_ONLY");
   const [error, setError] = useState(null);
 
   const privacyOptions = [

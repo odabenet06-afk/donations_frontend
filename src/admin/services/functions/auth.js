@@ -21,7 +21,6 @@ const auth = async (username, password) => {
   if (!response.ok) {
     return { success: false, error: data.message };
   }
-  console.log(data.token);
   setIsAuthorised(true);
   setToken(data.token);
   setRole(data.role);

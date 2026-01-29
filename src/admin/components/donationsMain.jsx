@@ -5,6 +5,7 @@ import DonationFilter from "./donationFilter";
 import DonationRow from "./donationRow";
 import ConfirmVoidModal from "../modals/confirmVoidModal";
 import CreateDonationModal from "../modals/createDonatioModal";
+import EditDonationModal from "../modals/editDonationModal";
 
 const Donations = ({ donations }) => {
   const { setDonations } = useAdminStore();
@@ -20,12 +21,20 @@ const Donations = ({ donations }) => {
   const [selectedId, setSelectedId] = useState(null);
   const [createModal, setCreateModal] = useState(false);
 
+  const [editModal, setEditModal] = useState(false);
+  const [currentDonation, setCurrentDonation] = useState(null);
+
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
 
   const openVoidModal = (id) => {
     setSelectedId(id);
     setVoidModal(true);
+  };
+
+  const openEditModal = (donation) => {
+    setCurrentDonation(donation);
+    setEditModal(true);
   };
 
   const months = [
@@ -61,9 +70,8 @@ const Donations = ({ donations }) => {
 
   return (
     <div className="p-5 flex flex-col h-full max-w-full">
-      {/* Header Summary Card - Updated for centering and responsiveness */}
+      {/* Header Summary Card */}
       <div className="bg-white shadow-lg mb-7 rounded-3xl p-6 flex flex-col md:flex-row justify-between items-center gap-6 border border-gray-50">
-        {/* Left Section */}
         <div className="text-center md:text-left">
           <h1 className="text-xl font-bold text-slate-800">Donation Metrics</h1>
           <p className="text-sm text-gray-500 font-medium mt-1">
@@ -71,7 +79,6 @@ const Donations = ({ donations }) => {
           </p>
         </div>
 
-        {/* Center Section - The Responsive Button */}
         <div className="flex-1 flex justify-center">
           <button
             onClick={() => setCreateModal(true)}
@@ -81,10 +88,9 @@ const Donations = ({ donations }) => {
           </button>
         </div>
 
-        {/* Right Section */}
         <div className="text-center md:text-right">
           <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest">
-            Total Revenue
+            Total Donations
           </p>
           <p className="text-2xl font-black">
             {totalSum} <span className="text-sm text-gray-400">MKD</span>
@@ -132,6 +138,7 @@ const Donations = ({ donations }) => {
                   key={donation.id}
                   donation={donation}
                   onDelete={openVoidModal}
+                  onEdit={openEditModal}
                 />
               ))
             )}
@@ -149,6 +156,13 @@ const Donations = ({ donations }) => {
 
       {createModal && (
         <CreateDonationModal onClose={() => setCreateModal(false)} />
+      )}
+
+      {editModal && (
+        <EditDonationModal
+          donation={currentDonation}
+          onClose={() => setEditModal(false)}
+        />
       )}
     </div>
   );

@@ -21,7 +21,7 @@ const createExpense = async (
         currency,
         category,
         description,
-        project_name,
+        project_name: project_name ? project_name : "General",
         attachment_url,
       },
     }),

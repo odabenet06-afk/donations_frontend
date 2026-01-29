@@ -114,7 +114,7 @@ const ExpenseFilter = ({
           )}
         </div>
 
-        {/* CATEGORY (Local Filter) */}
+        {/* CATEGORY  */}
         <div className="flex flex-col relative">
           <p className="text-xs ml-1 mb-1 font-bold text-gray-400 uppercase">
             Category

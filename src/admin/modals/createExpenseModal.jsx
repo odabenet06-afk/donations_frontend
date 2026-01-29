@@ -9,8 +9,8 @@ const CreateExpenseModal = ({ onClose }) => {
   const [currency, setCurrency] = useState("MKD");
   const [category, setCategory] = useState("");
   const [description, setDescription] = useState("");
-  const [projectName, setProjectName] = useState("");
-  const [attachmentUrl, setAttachmentUrl] = useState(""); // Attachment State
+  const [projectName, setProjectName] = useState(null);
+  const [attachmentUrl, setAttachmentUrl] = useState("");
   const [error, setError] = useState(null);
 
   const [toggleProject, setToggleProject] = useState(false);
@@ -26,8 +26,8 @@ const CreateExpenseModal = ({ onClose }) => {
   ];
 
   const handleCreate = async () => {
-    if (!amount || !category || !projectName) {
-      setError("Please fill in the amount, category, and project.");
+    if (!amount || !category) {
+      setError("Please fill in the amount, category");
       return;
     }
 
@@ -37,7 +37,7 @@ const CreateExpenseModal = ({ onClose }) => {
       category,
       description,
       projectName,
-      attachmentUrl, // Passed to your function
+      attachmentUrl,
     );
 
     if (!result.success) {
@@ -51,7 +51,7 @@ const CreateExpenseModal = ({ onClose }) => {
       currency: currency.toUpperCase(),
       category,
       description,
-      project_name: projectName,
+      project_name: projectName ? projectName : "General",
       attachment_url: attachmentUrl,
       created_by_username: user?.username || "Admin",
       created_at: new Date().toISOString(),
@@ -69,7 +69,7 @@ const CreateExpenseModal = ({ onClose }) => {
         </h2>
 
         <div className="flex flex-col gap-4">
-          {/* PROJECT & CATEGORY DROPDOWNS (Same as before) */}
+          {/* PROJECT & CATEGORY DROPDOWNS */}
           <div className="relative">
             <label className="text-sm font-semibold text-gray-500 mb-1 block">
               Project

@@ -25,7 +25,7 @@ const useAdminStore = create((set) => ({
     set({ loading: true });
     const today = new Date();
     const yyyy = today.getFullYear();
-    const mm = String(today.getMonth() + 1).padStart(2, "0"); 
+    const mm = String(today.getMonth() + 1).padStart(2, "0");
     const dd = String(today.getDate()).padStart(2, "0");
 
     const from = `${yyyy}-${mm}-${dd}`;
@@ -41,7 +41,6 @@ const useAdminStore = create((set) => ({
         fetchExpenses(year, month),
         fetchUsers(),
       ]);
-
     set({
       donations: donRes.data,
       stats: statRes.data,
