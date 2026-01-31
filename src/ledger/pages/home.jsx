@@ -6,7 +6,7 @@ import useData from "../hooks/useData";
 import Footer from "../components/footer";
 import useDataStore from "../services/store/dataStore";
 
-const home = ({ reusable }) => {
+const home = ({ reusable, footer }) => {
   const today = new Date();
   const currentYear = today.getFullYear();
   const currentMonth = today.getMonth() + 1;
@@ -54,7 +54,7 @@ const home = ({ reusable }) => {
           onFilter={setFilteredData}
         />
       </div>
-      <Footer />
+      {footer && <Footer />}
     </div>
   );
 };

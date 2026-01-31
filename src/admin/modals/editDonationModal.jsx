@@ -13,7 +13,7 @@ const EditDonationModal = ({ donation, onClose }) => {
   );
   const [receipt, setReceipt] = useState(donation?.receipt_number || "");
   const [error, setError] = useState(null);
-
+  const [success, setSuccess] = useState(false);
   const [toggleProject, setToggleProject] = useState(false);
   const [donorSearch, setDonorSearch] = useState("");
   const [searchResults, setSearchResults] = useState([]);
@@ -75,7 +75,12 @@ const EditDonationModal = ({ donation, onClose }) => {
     );
 
     setDonations(updatedDonations);
-    onClose();
+     setSuccess(true);
+    setError(null)
+    setTimeout(() => {
+      setSuccess(false);
+      onClose(); 
+    }, 2000);
   };
 
   return (
@@ -160,7 +165,6 @@ const EditDonationModal = ({ donation, onClose }) => {
             {toggleProject && (
               <div className="absolute top-full left-0 mt-1 w-full bg-white border border-slate-200 rounded-xl shadow-md z-50 max-h-48 overflow-y-auto">
                 <div className="flex flex-col p-1">
-                
                   <button
                     className={`text-left px-3 py-2 text-sm transition-colors ${
                       purpose === "General" || !purpose
@@ -172,11 +176,10 @@ const EditDonationModal = ({ donation, onClose }) => {
                       setToggleProject(false);
                     }}
                   >
-                    General 
+                    General
                   </button>
 
                   <div className="border-t border-gray-100 my-1 mx-2"></div>
-
 
                   {projects?.map((prj) => (
                     <button
@@ -240,7 +243,11 @@ const EditDonationModal = ({ donation, onClose }) => {
           </div>
 
           {error && <p className="text-red-500 text-xs font-bold">{error}</p>}
-
+          {success && (
+            <p className="text-green-400 mt-4 text-sm font-medium">
+              Changes saved successfully.
+            </p>
+          )}
           <div className="flex justify-end gap-3 mt-4">
             <button
               onClick={onClose}

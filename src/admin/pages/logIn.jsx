@@ -24,31 +24,31 @@ const LogIn = () => {
 
   return (
     <div className="min-h-screen w-full flex justify-center items-center bg-slate-50 p-4">
-      <div className="w-full max-w-[400px] md:max-w-[600px] lg:max-w-[700px] xl:max-w-[500px] h-fit p-8 md:p-14 bg-white rounded-2xl shadow-lg flex flex-col items-center">
-        <h1 className="text-3xl font-semibold md:text-5xl mb-10">LOG IN</h1>
+      <div className="w-full max-w-[400px] h-fit p-8 md:p-10 bg-white rounded-2xl shadow-lg flex flex-col items-center">
+        <h1 className="text-2xl font-semibold md:text-3xl mb-8">LOG IN</h1>
 
-        <div className="w-full flex flex-col gap-6 md:gap-10">
+        <div className="w-full flex flex-col gap-5">
           <div className="flex flex-col gap-2">
-            <label className="text-lg md:text-2xl font-medium text-slate-700">
+            <label className="text-sm md:text-base font-medium text-slate-700">
               Username
             </label>
             <input
               type="text"
               onChange={(e) => setUsername(e.target.value)}
-              className="h-12 px-4 md:h-20 md:text-2xl md:rounded-3xl rounded-xl border border-slate-200 bg-slate-50 focus:outline-none focus:ring-2 focus:ring-slate-300"
+              className="h-11 px-4 rounded-xl border border-slate-200 bg-slate-50 focus:outline-none focus:ring-2 focus:ring-slate-300 text-sm md:text-base"
               placeholder="Enter your username"
             />
           </div>
 
           <div className="flex flex-col gap-2">
-            <label className="text-lg md:text-2xl font-medium text-slate-700">
+            <label className="text-sm md:text-base font-medium text-slate-700">
               Password
             </label>
             <div className="relative w-full">
               <input
                 type={showPassword ? "text" : "password"}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full h-12 px-4 pr-12 md:h-20 md:pr-16 md:text-2xl md:rounded-3xl rounded-xl border border-slate-200 bg-slate-50 focus:outline-none focus:ring-2 focus:ring-slate-300"
+                className="w-full h-11 px-4 pr-12 rounded-xl border border-slate-200 bg-slate-50 focus:outline-none focus:ring-2 focus:ring-slate-300 text-sm md:text-base"
                 placeholder="Enter your password"
               />
               <button
@@ -63,7 +63,7 @@ const LogIn = () => {
                     viewBox="0 0 24 24"
                     strokeWidth={1.5}
                     stroke="currentColor"
-                    className="w-6 h-6 md:w-8 md:h-8"
+                    className="w-5 h-5"
                   >
                     <path
                       strokeLinecap="round"
@@ -78,7 +78,7 @@ const LogIn = () => {
                     viewBox="0 0 24 24"
                     strokeWidth={1.5}
                     stroke="currentColor"
-                    className="w-6 h-6 md:w-8 md:h-8"
+                    className="w-5 h-5"
                   >
                     <path
                       strokeLinecap="round"
@@ -98,17 +98,17 @@ const LogIn = () => {
 
           <button
             onClick={handleLogIn}
-            className="mt-6 h-12 rounded-xl md:h-20 md:text-2xl md:rounded-3xl bg-slate-900 text-white font-bold hover:bg-black transition-all active:scale-95 shadow-lg shadow-slate-200"
+            className="mt-4 h-11 rounded-xl bg-slate-900 text-white font-semibold hover:bg-black transition-all active:scale-95 shadow-md shadow-slate-200 text-sm md:text-base"
           >
             Log In
           </button>
         </div>
         {!error ? (
-          <p className="mt-8 text-sm md:text-2xl md:mt-12 text-slate-500">
+          <p className="mt-8 text-xs md:text-sm text-slate-400">
             Welcome Back!
           </p>
         ) : (
-          <p className="text-red-500 md:text-2xl md:mt-12 mt-8 text-center">
+          <p className="mt-8 text-red-500 text-xs md:text-sm text-center">
             {error}
           </p>
         )}

@@ -11,6 +11,7 @@ const CreateDonationModal = ({ onClose }) => {
   const [purpose, setPurpose] = useState(null);
   const [receipt, setReceipt] = useState("");
   const [error, setError] = useState(null);
+  const [success, setSuccess] = useState(false);
 
   const [toggleProject, setToggleProject] = useState(false);
   const [donorSearch, setDonorSearch] = useState("");
@@ -64,7 +65,12 @@ const CreateDonationModal = ({ onClose }) => {
     };
 
     setDonations([localNewDonation, ...(donations || [])]);
-    onClose();
+      setSuccess(true);
+    setError(null)
+    setTimeout(() => {
+      setSuccess(false);
+      onClose(); 
+    }, 2000);
   };
 
   return (
@@ -206,7 +212,11 @@ const CreateDonationModal = ({ onClose }) => {
           </div>
 
           {error && <p className="text-red-500 text-xs font-bold">{error}</p>}
-
+          {success && (
+            <p className="text-green-400 mt-4 text-sm font-medium">
+              Changes saved successfully.
+            </p>
+          )}
           <div className="flex justify-end gap-3 mt-4">
             <button
               onClick={onClose}

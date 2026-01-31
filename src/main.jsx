@@ -11,9 +11,11 @@ import Users from "./admin/pages/users.jsx";
 import AdminProjects from "./admin/pages/projects.jsx";
 import Dashboard from "./admin/pages/dashboard.jsx";
 import PublicRoot from "./ledger/roots/publicRoot.jsx";
-import AdminRoot from "./admin/roots/adminRoot.jsx";
+import AdminRoot from "./admin/routes/adminRoot.jsx";
 import LoginPage from "./admin/pages/logIn.jsx";
-import ProtectedRoute from "./admin/roots/protectedRoute.jsx";
+import ProtectedRoute from "./admin/routes/protectedRoute.jsx";
+import Logs from "./admin/pages/logs.jsx"
+
 
 const router = createBrowserRouter([
   {
@@ -22,7 +24,7 @@ const router = createBrowserRouter([
     children: [
       {
         path: "/",
-        element: <Home />,
+        element: <Home footer={true}/>,
       },
       {
         path: "/projects",
@@ -45,6 +47,7 @@ const router = createBrowserRouter([
           { path: "donations", element: <Donations /> },
           { path: "expenses", element: <Expenses /> },
           { path: "users", element: <Users /> },
+          { path: "logs", element: <Logs /> },
         ],
       },
     ],

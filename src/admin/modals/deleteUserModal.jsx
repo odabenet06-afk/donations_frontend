@@ -5,7 +5,7 @@ import useAdminStore from "../services/store/adminStore";
 const DeleteUserModal = ({ userToDelete, onCancel }) => {
   const [error, setError] = useState(null);
   const { users, setUsers } = useAdminStore();
-
+  const [success, setSuccess] = useState(false);
   const onConfirm = async () => {
     const result = await deleteUser(userToDelete.username);
 
@@ -15,8 +15,12 @@ const DeleteUserModal = ({ userToDelete, onCancel }) => {
     }
 
     setUsers(users.filter((u) => u.username !== userToDelete.username));
-
-    onCancel();
+    setSuccess(true);
+    setError(null)
+    setTimeout(() => {
+      setSuccess(false);
+      onClose(); 
+    }, 2000);
     return;
   };
 
@@ -47,6 +51,11 @@ const DeleteUserModal = ({ userToDelete, onCancel }) => {
           </button>
         </div>
         <p className="text-red-400 mt-4 text-sm">{error}</p>
+        {success && (
+          <p className="text-green-400 mt-4 text-sm font-medium">
+            Changes saved successfully.
+          </p>
+        )}
       </div>
     </div>
   );

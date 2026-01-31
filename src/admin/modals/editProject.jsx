@@ -15,7 +15,7 @@ const EditProjectModal = ({ onClose, prjct }) => {
     prjct?.end_date ? prjct.end_date.slice(0, 10) : "",
   );
   const [error, setError] = useState(null);
-
+  const [success, setSuccess] = useState(false);
   const handleUpdate = async () => {
     const result = await editProject(
       prjct.id,
@@ -45,7 +45,12 @@ const EditProjectModal = ({ onClose, prjct }) => {
     );
 
     setProjects(updatedList);
-    onClose();
+    setSuccess(true);
+    setError(null)
+    setTimeout(() => {
+      setSuccess(false);
+      onClose(); 
+    }, 2000);
   };
 
   const statusOptions = ["planned", "active", "completed"];
@@ -127,7 +132,11 @@ const EditProjectModal = ({ onClose, prjct }) => {
           </div>
 
           {error && <p className="text-red-500 text-sm">{error}</p>}
-
+          {success && (
+            <p className="text-green-400 mt-4 text-sm font-medium">
+              Changes saved successfully.
+            </p>
+          )}
           <div className="flex justify-end gap-2 mt-4">
             <button
               onClick={onClose}

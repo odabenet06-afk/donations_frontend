@@ -4,7 +4,7 @@ import useAdminStore from "../services/store/adminStore";
 
 const EditUserModal = ({ userToEdit, onClose }) => {
   const { users, setUsers } = useAdminStore();
-
+  const [success, setSuccess] = useState(false);
   const [username, setUsername] = useState(userToEdit?.username || "");
   const [password, setPassword] = useState("");
   const [role, setRole] = useState(userToEdit?.role || "admin");
@@ -33,7 +33,12 @@ const EditUserModal = ({ userToEdit, onClose }) => {
     );
 
     setUsers(updatedUsers);
-    onClose();
+    setSuccess(true);
+    setError(null);
+    setTimeout(() => {
+      setSuccess(false);
+      onClose();
+    }, 2000);
   };
 
   const roleOptions = ["admin", "staff"];
@@ -95,7 +100,11 @@ const EditUserModal = ({ userToEdit, onClose }) => {
           </div>
 
           {error && <p className="text-red-500 text-sm mt-1">{error}</p>}
-
+          {success && (
+            <p className="text-green-400 mt-4 text-sm font-medium">
+              Changes saved successfully.
+            </p>
+          )}
           <div className="flex justify-end gap-2 mt-4">
             <button
               onClick={onClose}

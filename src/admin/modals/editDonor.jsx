@@ -4,7 +4,7 @@ import editDonor from "../services/functions/editDonor";
 
 const EditDonorModal = ({ onClose, donor }) => {
   const { donors, setDonors } = useAdminStore();
-
+  const [success, setSuccess] = useState(false);
   const [firstName, setFirstName] = useState(donor?.first_name || "");
   const [lastName, setLastName] = useState(donor?.last_name || "");
   const [email, setEmail] = useState(donor?.email || "");
@@ -52,7 +52,12 @@ const EditDonorModal = ({ onClose, donor }) => {
     );
 
     setDonors(updatedList);
-    onClose();
+    setSuccess(true);
+    setError(null)
+    setTimeout(() => {
+      setSuccess(false);
+      onClose(); 
+    }, 2000);
   };
 
   return (
@@ -144,7 +149,11 @@ const EditDonorModal = ({ onClose, donor }) => {
           </div>
 
           {error && <p className="text-red-500 text-xs font-medium">{error}</p>}
-
+          {success && (
+            <p className="text-green-400 mt-4 text-sm font-medium">
+              Changes saved successfully.
+            </p>
+          )}
           <div className="flex justify-end gap-2 mt-4">
             <button
               onClick={onClose}

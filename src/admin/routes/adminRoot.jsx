@@ -4,14 +4,22 @@ import useAdminStore from "../services/store/adminStore";
 import x from "../../assets/icons/x.png";
 import { Link } from "react-router-dom";
 import openHands from "../../assets/icons/openHands.png";
-
+import useData from "../../ledger/hooks/useData";
 const AdminRoot = () => {
+  const today = new Date();
+  const currentYear = today.getFullYear();
+  const currentMonth = today.getMonth() + 1;
   const [toggleSidebar, setToggleSideBar] = useState(false);
   const [current, setCurrent] = useState("Dashboard");
 
   const loadDashboardData = useAdminStore((state) => state.loadDashboardData);
 
   const { role, logOut } = useAdminStore();
+  const {
+    data: otherData,
+    loading,
+    error,
+  } = useData(currentYear, currentMonth);
 
   let pages;
   if (role === "staff") {
@@ -29,6 +37,7 @@ const AdminRoot = () => {
       { path: "Donations" },
       { path: "Expenses" },
       { path: "Users" },
+      { path: "Logs" },
     ];
   }
 

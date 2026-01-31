@@ -8,10 +8,16 @@ const card = ({ data, date }) => {
     return <div className="hidden lg:block lg:col-span-1"></div>;
   }
   return (
-    <div className="shadow-lg h-60 p-8 col-span-1 lg:col-span-2 bg-white rounded-4xl">
+    <div className={`shadow-lg h-60 p-8 col-span-1 lg:col-span-2 ${data.property === "Donations"
+                ? "bg-green-50"
+                : data.property === "Expenses"
+                  ? "bg-red-50" : "bg-blue-50"} rounded-4xl`}>
       <div className="flex flex-col gap-5 w-full h-full">
-        <div className="bg-slate-100 rounded-xl p-2 w-10 h-10">
-          <img
+        <div className={`${data.property === "Donations"
+                ? "bg-green-200"
+                : data.property === "Expenses"
+                  ? "bg-red-200" : "bg-blue-200"} rounded-xl p-2 w-10 h-10`}>
+          <img 
             src={
               data.property === "Donations"
                 ? upward

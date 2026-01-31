@@ -4,7 +4,7 @@ import useAdminStore from "../services/store/adminStore";
 
 const CreateExpenseModal = ({ onClose }) => {
   const { expenses, setExpenses, projects, user } = useAdminStore();
-
+  const [success, setSuccess] = useState(false);
   const [amount, setAmount] = useState("");
   const [currency, setCurrency] = useState("MKD");
   const [category, setCategory] = useState("");
@@ -58,7 +58,12 @@ const CreateExpenseModal = ({ onClose }) => {
     };
 
     setExpenses([newExpense, ...(expenses || [])]);
-    onClose();
+    setSuccess(true);
+    setError(null)
+    setTimeout(() => {
+      setSuccess(false);
+      onClose(); 
+    }, 2000);
   };
 
   return (
@@ -211,6 +216,11 @@ const CreateExpenseModal = ({ onClose }) => {
           {error && (
             <p className="text-red-500 text-xs font-bold text-center bg-red-50 py-2 rounded-lg">
               {error}
+            </p>
+          )}
+          {success && (
+            <p className="text-green-400 mt-4 text-sm font-medium">
+              Changes saved successfully.
             </p>
           )}
 

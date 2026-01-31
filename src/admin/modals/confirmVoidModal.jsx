@@ -4,6 +4,7 @@ import voidData from "../services/functions/voidData";
 
 const ConfirmVoidModal = ({ onCancel, id, type }) => {
   const [error, setError] = useState(null);
+  const [success, setSuccess] = useState(false);
 
   const { donations, setDonations, expenses, setExpenses } = useAdminStore();
 
@@ -20,8 +21,12 @@ const ConfirmVoidModal = ({ onCancel, id, type }) => {
     } else if (type === "expense") {
       setExpenses(expenses.filter((e) => e.id !== id));
     }
-
-    onCancel();
+       setSuccess(true);
+    setError(null)
+    setTimeout(() => {
+      setSuccess(false);
+      onCancel(); 
+    }, 2000);
     return;
   };
 
@@ -49,6 +54,11 @@ const ConfirmVoidModal = ({ onCancel, id, type }) => {
           </button>
         </div>
         <p className="text-red-400 mt-4 text-sm font-medium">{error}</p>
+        {success && (
+          <p className="text-green-400 mt-4 text-sm font-medium">
+            Changes saved successfully.
+          </p>
+        )}
       </div>
     </div>
   );

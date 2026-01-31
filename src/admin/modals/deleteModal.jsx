@@ -4,7 +4,7 @@ import useAdminStore from "../services/store/adminStore";
 
 const ConfirmDeleteModal = ({ onCancel, id, username, type }) => {
   const [error, setError] = useState(null);
-
+  const [success, setSuccess] = useState(false);
   const { donors, setDonors, users, setUsers, projects, setProjects } =
     useAdminStore();
 
@@ -21,7 +21,12 @@ const ConfirmDeleteModal = ({ onCancel, id, username, type }) => {
     } else if (type === "project") {
       setProjects(projects?.filter((p) => p.id !== id) || []);
     }
-    onCancel();
+    setSuccess(true);
+    setError(null)
+    setTimeout(() => {
+      setSuccess(false);
+      onClose(); 
+    }, 2000);
     return;
   };
 
@@ -49,6 +54,11 @@ const ConfirmDeleteModal = ({ onCancel, id, username, type }) => {
           </button>
         </div>
         <p className="text-red-400">{error}</p>
+        {success && (
+          <p className="text-green-400 mt-4 text-sm font-medium">
+            Changes saved successfully.
+          </p>
+        )}
       </div>
     </div>
   );

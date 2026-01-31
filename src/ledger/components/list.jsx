@@ -77,14 +77,15 @@ const list = ({ data, onFilter }) => {
                     {pageData[i].category}
                   </p>
                 )}
-                {/* {pageData[i]?.purpose && <p className="text-xs truncate">{filteredData[i].purpose}</p>} */}
                 {pageData[i]?.date && (
                   <p className="text-xs lg:text-md font-bold text-gray-500">
                     {formatEUDate(pageData[i]?.date)}
                   </p>
                 )}
                 {pageData[i]?.amount && (
-                  <p className="text-xs lg:text-md font-bold text-right">
+                  <p
+                    className={`text-xs ${type === "donations" ? "text-green-400" : "text-red-400"} lg:text-md font-bold text-right`}
+                  >
                     {pageData[i].amount.toLocaleString()} MKD
                   </p>
                 )}

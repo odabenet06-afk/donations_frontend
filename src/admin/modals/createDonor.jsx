@@ -4,7 +4,7 @@ import createDonor from "../services/functions/createDonor";
 
 const CreateDonorModal = ({ onClose }) => {
   const { donors, setDonors } = useAdminStore();
-
+  const [success, setSuccess] = useState(false);
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
@@ -46,7 +46,12 @@ const CreateDonorModal = ({ onClose }) => {
     };
 
     setDonors([...(donors || []), newDonor]);
-    onClose();
+     setSuccess(true);
+    setError(null)
+    setTimeout(() => {
+      setSuccess(false);
+      onClose(); 
+    }, 2000);
   };
 
   return (
@@ -143,7 +148,11 @@ const CreateDonorModal = ({ onClose }) => {
           </div>
 
           {error && <p className="text-red-500 text-xs font-medium">{error}</p>}
-
+          {success && (
+            <p className="text-green-400 mt-4 text-sm font-medium">
+              Changes saved successfully.
+            </p>
+          )}
           <div className="flex justify-end gap-2 mt-4">
             <button
               onClick={onClose}
