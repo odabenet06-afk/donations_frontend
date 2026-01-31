@@ -4,7 +4,6 @@ import Expenses from "../components/expenseMain";
 
 const expenses = () => {
   const { expenses } = useAdminStore();
-  console.log(expenses);
 
   return (
     <div>

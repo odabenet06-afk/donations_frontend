@@ -3,7 +3,6 @@ import arrow from "../../assets/icons/arrow.png";
 
 const Project = ({ data, projectNames, onChange }) => {
   const [toggleProjects, setToggleProjects] = useState(false);
-  console.log(data);
   return (
     /* Grid wrapper for large screens */
     <div className="lg:grid lg:grid-cols-8 w-full">

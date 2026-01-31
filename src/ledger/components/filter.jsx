@@ -17,15 +17,11 @@ const filter = ({ onFilter, type, oldData }) => {
   const { setDataStore } = useDataStore();
 
   const handleSearch = async () => {
-    console.log(searchText);
     const newData = await fetchData(year, month, searchText);
-    console.log(newData);
     setDataStore(newData.data);
   };
   const handleOtherSearch = async () => {
-    console.log(searchText);
     const newData = await fetchData(year, month);
-    console.log(newData);
     onFiltesetDataStorer(newData.data);
   };
 

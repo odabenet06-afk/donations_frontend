@@ -26,7 +26,6 @@ const Expenses = ({ expenses }) => {
   const itemsPerPage = 10;
 
   const handleVoidExpense = async (id) => {
-    console.log("Voiding expense with ID:", id);
     setDeleteModal(false);
   };
 

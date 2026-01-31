@@ -23,7 +23,6 @@ const CreateDonationModal = ({ onClose }) => {
       if (donorSearch.trim().length > 1 && !selectedDonor) {
         const result = await fetchDonors("", "", donorSearch);
         if (result.success) setSearchResults(result.data);
-        console.log(searchResults);
       } else {
         setSearchResults([]);
       }
