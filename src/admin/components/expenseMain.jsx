@@ -7,7 +7,7 @@ import ConfirmVoidModal from "../modals/confirmVoidModal";
 import CreateExpenseModal from "../modals/createExpenseModal"; 
 
 const Expenses = ({ expenses }) => {
-  const { setExpenses } = useAdminStore();
+  const { setExpenses, language } = useAdminStore();
   const today = new Date();
 
   const [deleteModal, setDeleteModal] = useState(false);
@@ -25,8 +25,53 @@ const Expenses = ({ expenses }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
 
+  const dict = {
+    en: {
+      title: "Expense Tracking",
+      count: "Expenses",
+      newBtn: "+ New Expense",
+      totalSpent: "Total Spent",
+      noData: "No expenses recorded.",
+      prev: "Previous",
+      next: "Next",
+      page: "Page",
+      of: "of",
+      cols: ["Project", "Amount", "Category", "Description", "Admin", "Date", "Action"],
+      months: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+    },
+    sq: {
+      title: "Ndjekja e Shpenzimeve",
+      count: "Shpenzime",
+      newBtn: "+ Shpenzim i Ri",
+      totalSpent: "Gjithsej Shpenzuar",
+      noData: "Nuk u gjet asnjë shpenzim.",
+      prev: "Paraprake",
+      next: "Tjetra",
+      page: "Faqja",
+      of: "nga",
+      cols: ["Projekti", "Shuma", "Kategoria", "Përshkrimi", "Admin", "Data", "Veprimi"],
+      months: ["Janar", "Shkurt", "Mars", "Prill", "Maj", "Qershor", "Korrik", "Gusht", "Shtator", "Tetor", "Nëntor", "Dhjetor"]
+    },
+    mk: {
+      title: "Следење на трошоци",
+      count: "Трошоци",
+      newBtn: "+ Нов трошок",
+      totalSpent: "Вкупно потрошено",
+      noData: "Нема евидентирано трошоци.",
+      prev: "Претходна",
+      next: "Следна",
+      page: "Страница",
+      of: "од",
+      cols: ["Проект", "Износ", "Категорија", "Опис", "Админ", "Датум", "Акција"],
+      months: ["Јануари", "Февруари", "Март", "Април", "Мај", "Јуни", "Јули", "Август", "Септември", "Октомври", "Ноември", "Декември"]
+    }
+  };
+
+  const lang = dict[language] || dict.en;
+
   const handleVoidExpense = async (id) => {
     setDeleteModal(false);
+    // Add logic here to remove from store if needed
   };
 
   const openDeleteModal = (id) => {
@@ -34,14 +79,7 @@ const Expenses = ({ expenses }) => {
     setDeleteModal(true);
   };
 
-  const months = [
-    { label: "January", value: 1 }, { label: "February", value: 2 },
-    { label: "March", value: 3 }, { label: "April", value: 4 },
-    { label: "May", value: 5 }, { label: "June", value: 6 },
-    { label: "July", value: 7 }, { label: "August", value: 8 },
-    { label: "September", value: 9 }, { label: "October", value: 10 },
-    { label: "November", value: 11 }, { label: "December", value: 12 },
-  ];
+  const months = lang.months.map((m, i) => ({ label: m, value: i + 1 }));
 
   const handleSearch = async () => {
     const result = await fetchExpenses(year, month);
@@ -68,25 +106,24 @@ const Expenses = ({ expenses }) => {
       {/* Header Summary */}
       <div className="bg-white shadow-lg mb-7 rounded-3xl p-6 flex flex-col md:flex-row justify-between items-center gap-6 border border-gray-50">
         <div className="text-center md:text-left">
-          <h1 className="text-xl font-bold text-slate-800">Expense Tracking</h1>
+          <h1 className="text-xl font-bold text-slate-800">{lang.title}</h1>
           <p className="text-sm text-gray-500 font-medium mt-1">
-            {filteredExpenses.length} Expenses
+            {filteredExpenses.length} {lang.count}
           </p>
         </div>
 
-        {/* Center Button */}
         <div className="flex-1 flex justify-center">
           <button
             onClick={() => setCreateModal(true)}
             className="bg-white text-slate-600 font-semibold px-8 py-2.5 rounded-full shadow-sm hover:bg-gray-50 transition border border-gray-100 active:scale-95 whitespace-nowrap"
           >
-            + New Expense
+            {lang.newBtn}
           </button>
         </div>
 
         <div className="text-center md:text-right">
           <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest">
-            total Spent
+            {lang.totalSpent}
           </p>
           <p className="text-2xl font-black">
             {totalAmount} <span className="text-sm text-gray-400">MKD</span>
@@ -109,18 +146,18 @@ const Expenses = ({ expenses }) => {
         <div className="w-full overflow-x-auto pb-4">
           <div className="min-w-[1100px] flex flex-col gap-2">
             <div className="flex flex-row p-4 font-black text-gray-400 text-[11px] uppercase tracking-[0.15em] border-b border-gray-50 mb-2">
-              <div className="w-40 shrink-0 px-2">Project</div>
-              <div className="w-40 shrink-0 px-2">Amount</div>
-              <div className="w-44 shrink-0 px-2">Category</div>
-              <div className="flex-1 px-4">Description</div>
-              <div className="w-32 shrink-0 px-2">Admin</div>
-              <div className="w-40 shrink-0 text-right px-2">Date</div>
-              <div className="w-20 shrink-0 text-center px-2">Action</div>
+              <div className="w-40 shrink-0 px-2">{lang.cols[0]}</div>
+              <div className="w-40 shrink-0 px-2">{lang.cols[1]}</div>
+              <div className="w-44 shrink-0 px-2">{lang.cols[2]}</div>
+              <div className="flex-1 px-4">{lang.cols[3]}</div>
+              <div className="w-32 shrink-0 px-2">{lang.cols[4]}</div>
+              <div className="w-40 shrink-0 text-right px-2">{lang.cols[5]}</div>
+              <div className="w-20 shrink-0 text-center px-2">{lang.cols[6]}</div>
             </div>
 
             {!currentExpenses.length ? (
               <div className="h-32 flex items-center justify-center text-gray-400 italic bg-gray-50 rounded-2xl">
-                No expenses recorded.
+                {lang.noData}
               </div>
             ) : (
               currentExpenses.map((exp) => (
@@ -142,23 +179,22 @@ const Expenses = ({ expenses }) => {
               onClick={() => setCurrentPage((p) => p - 1)}
               className="px-6 py-2 bg-gray-100 rounded-xl disabled:opacity-50 text-sm font-bold text-gray-600 transition-all hover:bg-gray-200"
             >
-              Previous
+              {lang.prev}
             </button>
             <span className="text-sm text-gray-500 font-bold">
-              Page <span className="text-blue-600">{currentPage}</span> of {totalPages}
+              {lang.page} <span className="text-blue-600">{currentPage}</span> {lang.of} {totalPages}
             </span>
             <button
               disabled={currentPage === totalPages}
               onClick={() => setCurrentPage((p) => p + 1)}
               className="px-6 py-2 bg-gray-100 rounded-xl disabled:opacity-50 text-sm font-bold text-gray-600 transition-all hover:bg-gray-200"
             >
-              Next
+              {lang.next}
             </button>
           </div>
         )}
       </div>
 
-      {/* Delete Confirmation Modal */}
       {deleteModal && (
         <ConfirmVoidModal
           type="expense"
@@ -168,7 +204,6 @@ const Expenses = ({ expenses }) => {
         />
       )}
 
-      {/* Create Expense Modal */}
       {createModal && (
         <CreateExpenseModal onClose={() => setCreateModal(false)} />
       )}

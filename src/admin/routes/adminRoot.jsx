@@ -1,10 +1,10 @@
-import { Outlet } from "react-router-dom";
+import { Outlet, Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import useAdminStore from "../services/store/adminStore";
 import x from "../../assets/icons/x.png";
-import { Link } from "react-router-dom";
 import openHands from "../../assets/icons/openHands.png";
 import useData from "../../ledger/hooks/useData";
+
 const AdminRoot = () => {
   const today = new Date();
   const currentYear = today.getFullYear();
@@ -12,14 +12,45 @@ const AdminRoot = () => {
   const [toggleSidebar, setToggleSideBar] = useState(false);
   const [current, setCurrent] = useState("Dashboard");
 
-  const loadDashboardData = useAdminStore((state) => state.loadDashboardData);
+  // Added setLanguage to destructuring
+  const { role, logOut, language, setLanguage, loadDashboardData } = useAdminStore();
+  
+  const { data: otherData, loading, error } = useData(currentYear, currentMonth);
 
-  const { role, logOut } = useAdminStore();
-  const {
-    data: otherData,
-    loading,
-    error,
-  } = useData(currentYear, currentMonth);
+  const dict = {
+    en: {
+      Dashboard: "Dashboard",
+      Project: "Projects",
+      Donors: "Donors",
+      Donations: "Donations",
+      Expenses: "Expenses",
+      Users: "Users",
+      Logs: "Logs",
+      logout: "LOG OUT"
+    },
+    sq: {
+      Dashboard: "Paneli",
+      Project: "Projektet",
+      Donors: "Donorët",
+      Donations: "Donacionet",
+      Expenses: "Shpenzimet",
+      Users: "Përdoruesit",
+      Logs: "Regjistrat",
+      logout: "ÇKYÇU"
+    },
+    mk: {
+      Dashboard: "Контролна табла",
+      Project: "Проекти",
+      Donors: "Донатори",
+      Donations: "Донации",
+      Expenses: "Трошоци",
+      Users: "Корисници",
+      Logs: "Записи",
+      logout: "ОДЈАВИ СЕ"
+    }
+  };
+
+  const lang = dict[language] || dict.en;
 
   let pages;
   if (role === "staff") {
@@ -42,13 +73,11 @@ const AdminRoot = () => {
   }
 
   useEffect(() => {
-    const today = new Date();
     loadDashboardData(today.getFullYear(), today.getMonth() + 1);
   }, []);
 
   return (
     <div className="bg-slate-50 flex min-h-screen overflow-x-hidden">
-      {/* Sidebar Overlay for Mobile */}
       {toggleSidebar && (
         <div
           className="fixed inset-0 bg-black/20 z-40 lg:hidden"
@@ -56,7 +85,6 @@ const AdminRoot = () => {
         />
       )}
 
-      {/* Sidebar */}
       <aside
         className={`fixed inset-y-0 left-0 z-50 w-64 bg-white shadow-xl transition-transform duration-300 ease-in-out 
           ${toggleSidebar ? "translate-x-0" : "-translate-x-64"} 
@@ -87,30 +115,51 @@ const AdminRoot = () => {
                   : "text-slate-600 hover:bg-slate-50"
               }`}
             >
-              {page.path === "Project" ? "Projects" : page.path}
+              {lang[page.path] || page.path}
             </Link>
           ))}
         </nav>
       </aside>
 
-      {/* Main Content Area */}
       <main className="flex-1 flex flex-col min-w-0">
         <header className="bg-slate-50 lg:bg-transparent lg:border-none flex justify-between items-center p-4 md:p-6">
-          <button
-            onClick={() => setToggleSideBar(true)}
-            className="p-2 text-2xl lg:hidden"
-          >
-            ☰
-          </button>
-          <h1 className="text-2xl font-bold text-slate-800">
-            {current === "Project" ? "Projects" : current}
-          </h1>
-          <button
-            onClick={logOut}
-            className="bg-white shadow-sm border border-slate-200 px-6 py-2 flex items-center justify-center font-bold rounded-full hover:bg-slate-50 transition-all"
-          >
-            LOG OUT
-          </button>
+          <div className="flex items-center gap-4">
+            <button
+              onClick={() => setToggleSideBar(true)}
+              className="p-2 text-2xl lg:hidden"
+            >
+              ☰
+            </button>
+            <h1 className="text-2xl font-bold text-slate-800">
+              {lang[current] || current}
+            </h1>
+          </div>
+
+          <div className="flex items-center gap-3 md:gap-6">
+            {/* Language Switcher */}
+            <div className="flex bg-white border border-slate-200 rounded-full p-1 shadow-sm">
+              {["en", "sq", "mk"].map((l) => (
+                <button
+                  key={l}
+                  onClick={() => setLanguage(l)}
+                  className={`px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-tighter transition-all ${
+                    language === l
+                      ? "bg-slate-900 text-white"
+                      : "text-slate-400 hover:text-slate-600"
+                  }`}
+                >
+                  {l}
+                </button>
+              ))}
+            </div>
+
+            <button
+              onClick={logOut}
+              className="bg-white shadow-sm border border-slate-200 px-6 py-2 flex items-center justify-center font-bold rounded-full hover:bg-slate-50 transition-all text-xs"
+            >
+              {lang.logout}
+            </button>
+          </div>
         </header>
 
         <section className="flex-1">

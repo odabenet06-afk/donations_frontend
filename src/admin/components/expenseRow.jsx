@@ -4,13 +4,30 @@ import xIcon from "../../assets/icons/x.png";
 import useAdminStore from "../services/store/adminStore";
 
 const ExpenseRow = ({ expense, onDelete }) => {
-  const { role } = useAdminStore();
+  const { role, language } = useAdminStore();
+
+  const dict = {
+    en: {
+      project: "Project",
+      notPermitted: "Not permitted",
+    },
+    sq: {
+      project: "Projekti",
+      notPermitted: "Nuk lejohet",
+    },
+    mk: {
+      project: "Проект",
+      notPermitted: "Не е дозволено",
+    },
+  };
+
+  const lang = dict[language] || dict.en;
 
   return (
     <div className="flex flex-row bg-white p-4 rounded-2xl border border-gray-100 hover:shadow-md transition-shadow items-center">
       <div className="w-40 shrink-0 px-2 font-bold text-slate-800">
         <span className="text-[10px] text-gray-400 block uppercase">
-          Project
+          {lang.project}
         </span>
         {expense.project_name}
       </div>
@@ -34,10 +51,10 @@ const ExpenseRow = ({ expense, onDelete }) => {
         {formatEUDate(expense.created_at)}
       </div>
 
-      {/* DELETE*/}
+      {/* DELETE ACTION */}
       <div className="w-20 shrink-0 flex justify-center px-2">
         {role === "staff" ? (
-          <p>Not permitted</p>
+          <p className="text-[10px] text-red-400 font-bold uppercase">{lang.notPermitted}</p>
         ) : (
           <button
             onClick={() => onDelete(expense.id)}

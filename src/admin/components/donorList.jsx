@@ -8,7 +8,7 @@ import CreateDonorModal from "../modals/createDonor";
 import EditDonorModal from "../modals/editDonor";
 
 const Donors = () => {
-  const { donors, setDonors, role } = useAdminStore();
+  const { donors, setDonors, role, language } = useAdminStore();
   const [createModal, setCreateModal] = useState(false);
   const [editModal, setEditModal] = useState(false);
   const [deleteModal, setDeleteModal] = useState(false);
@@ -24,20 +24,80 @@ const Donors = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
 
-  const months = [
-    { label: "January", value: 1 },
-    { label: "February", value: 2 },
-    { label: "March", value: 3 },
-    { label: "April", value: 4 },
-    { label: "May", value: 5 },
-    { label: "June", value: 6 },
-    { label: "July", value: 7 },
-    { label: "August", value: 8 },
-    { label: "September", value: 9 },
-    { label: "October", value: 10 },
-    { label: "November", value: 11 },
-    { label: "December", value: 12 },
-  ];
+  // Translation Dictionary
+  const dict = {
+    en: {
+      title: "Donors Management",
+      total: "Total Donors",
+      newDonor: "+ New Donor",
+      noDonors: "No donors found.",
+      prev: "Previous",
+      next: "Next",
+      pageOf: "Page",
+      of: "of",
+      headers: {
+        id: "Donor ID",
+        name: "Full Name",
+        email: "Email",
+        phone: "Phone",
+        privacy: "Privacy",
+        notes: "Notes",
+        created: "Created At",
+        actions: "Actions"
+      },
+      months: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+    },
+    sq: {
+      title: "Menaxhimi i Donatorëve",
+      total: "Totali i Donatorëve",
+      newDonor: "+ Donator i Ri",
+      noDonors: "Nuk u gjet asnjë donator.",
+      prev: "Para",
+      next: "Pas",
+      pageOf: "Faqja",
+      of: "nga",
+      headers: {
+        id: "ID Donatori",
+        name: "Emri i Plotë",
+        email: "Email",
+        phone: "Telefoni",
+        privacy: "Privatësia",
+        notes: "Shënime",
+        created: "Krijuar më",
+        actions: "Veprime"
+      },
+      months: ["Janar", "Shkurt", "Mars", "Prill", "Maj", "Qershor", "Korrik", "Gusht", "Shtator", "Tetor", "Nëntor", "Dhjetor"]
+    },
+    mk: {
+      title: "Управување со донатори",
+      total: "Вкупно донатори",
+      newDonor: "+ Нов донатор",
+      noDonors: "Не се пронајдени донатори.",
+      prev: "Претходна",
+      next: "Следна",
+      pageOf: "Страна",
+      of: "од",
+      headers: {
+        id: "ID на донатор",
+        name: "Целосно име",
+        email: "Е-пошта",
+        phone: "Телефон",
+        privacy: "Приватност",
+        notes: "Белешки",
+        created: "Креирано на",
+        actions: "Акции"
+      },
+      months: ["Јануари", "Февруари", "Март", "Април", "Мај", "Јуни", "Јули", "Август", "Септември", "Октомври", "Ноември", "Декември"]
+    }
+  };
+
+  const lang = dict[language] || dict.en;
+
+  // Map months to the value structure expected by filters
+  const localizedMonths = lang.months.map((m, index) => ({
+    label: m,
+    value: index + 1
+  }));
 
   const handleSearch = async () => {
     const result = await fetchDonors(year, month, search);
@@ -59,10 +119,10 @@ const Donors = () => {
       <div className="bg-white shadow-lg mb-7 rounded-3xl p-6 flex justify-between items-center">
         <div>
           <h1 className="text-xl font-bold text-slate-800">
-            Donors Management
+            {lang.title}
           </h1>
           <p className="text-sm text-gray-500 font-medium mt-1">
-            Total Donors: {donors?.length || 0}
+            {lang.total}: {donors?.length || 0}
           </p>
         </div>
 
@@ -70,7 +130,7 @@ const Donors = () => {
           onClick={() => setCreateModal(true)}
           className="bg-white text-slate-600 font-semibold px-6 py-2 rounded-full shadow hover:bg-gray-100 transition border border-gray-100"
         >
-          + New Donor
+          {lang.newDonor}
         </button>
       </div>
 
@@ -86,7 +146,7 @@ const Donors = () => {
         setToggleYear={setToggleYear}
         toggleMonth={toggleMonth}
         setToggleMonth={setToggleMonth}
-        months={months}
+        months={localizedMonths} // Passed localized labels
       />
 
       <div className="w-full bg-white rounded-3xl border border-slate-200 shadow-sm overflow-hidden p-6">
@@ -94,19 +154,19 @@ const Donors = () => {
           <div className="min-w-[1250px] flex flex-col gap-2">
             {/* Table Headers */}
             <div className="flex flex-row p-3 font-semibold text-gray-700 text-xs uppercase tracking-wider">
-              <div className="w-36 shrink-0">Donor ID</div>
-              <div className="w-48 shrink-0">Full Name</div>
-              <div className="w-56 shrink-0">Email</div>
-              <div className="w-36 shrink-0">Phone</div>
-              <div className="w-48 shrink-0">Privacy</div>
-              <div className="flex-1 px-2">Notes</div>
-              <div className="w-32 shrink-0 text-right pr-4">Created At</div>
-              <div className="w-24 shrink-0 text-center">Actions</div>
+              <div className="w-36 shrink-0">{lang.headers.id}</div>
+              <div className="w-48 shrink-0">{lang.headers.name}</div>
+              <div className="w-56 shrink-0">{lang.headers.email}</div>
+              <div className="w-36 shrink-0">{lang.headers.phone}</div>
+              <div className="w-48 shrink-0">{lang.headers.privacy}</div>
+              <div className="flex-1 px-2">{lang.headers.notes}</div>
+              <div className="w-32 shrink-0 text-right pr-4">{lang.headers.created}</div>
+              <div className="w-24 shrink-0 text-center">{lang.headers.actions}</div>
             </div>
 
             {!currentDonors.length ? (
               <div className="h-32 flex items-center justify-center text-gray-400 italic bg-gray-50 rounded-2xl">
-                No donors found.
+                {lang.noDonors}
               </div>
             ) : (
               currentDonors.map((donor) => (
@@ -136,17 +196,17 @@ const Donors = () => {
               onClick={() => setCurrentPage((p) => p - 1)}
               className="px-4 py-2 bg-gray-100 rounded-xl disabled:opacity-50 text-sm font-semibold"
             >
-              Previous
+              {lang.prev}
             </button>
             <span className="text-sm text-gray-600 font-medium">
-              Page {currentPage} of {totalPages}
+              {lang.pageOf} {currentPage} {lang.of} {totalPages}
             </span>
             <button
               disabled={currentPage === totalPages}
               onClick={() => setCurrentPage((p) => p + 1)}
               className="px-4 py-2 bg-gray-100 rounded-xl disabled:opacity-50 text-sm font-semibold"
             >
-              Next
+              {lang.next}
             </button>
           </div>
         )}

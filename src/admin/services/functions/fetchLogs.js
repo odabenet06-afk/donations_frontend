@@ -1,11 +1,11 @@
 import useAdminStore from "../store/adminStore";
 
-const fetchLogs = async (from, to) => {
+const fetchLogs = async () => {
   const { token } = useAdminStore.getState();
 
   try {
     const response = await fetch(
-      `https://${import.meta.env.VITE_API_URL}/admin/load-logs?from=${from}&to=${to}`,
+      `https://${import.meta.env.VITE_API_URL}/admin/load-logs`,
       {
         method: "GET",
         headers: {

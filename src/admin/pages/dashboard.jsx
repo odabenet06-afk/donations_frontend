@@ -5,7 +5,7 @@ import Home from "../../ledger/pages/home";
 
 
 const dashboard = () => {
-  const { stats } = useAdminStore();
+  const { stats, language } = useAdminStore();
 
   if (!stats) return <p>Loading...</p>;
 
@@ -25,7 +25,7 @@ const dashboard = () => {
   ];
   return (
     <div className="flex flex-col gap-6 p-4 md:p-8 bg-slate-50 min-h-full w-full box-border">
-      <Home footer={false} />
+      <Home footer={false} lang={language}/>
 
       <div className="grid grid-cols-12 gap-6 w-full">
         {data.map((field, index) => (

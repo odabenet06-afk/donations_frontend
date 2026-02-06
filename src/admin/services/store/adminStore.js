@@ -20,6 +20,7 @@ const useAdminStore = create((set) => ({
   donors: null,
   expenses: null,
   users: null,
+  language: "mk",
 
   loadDashboardData: async (year, month, search = "") => {
     set({ loading: true });
@@ -28,14 +29,11 @@ const useAdminStore = create((set) => ({
     const mm = String(today.getMonth() + 1).padStart(2, "0");
     const dd = String(today.getDate()).padStart(2, "0");
 
-    const from = `${yyyy}-${mm}-${dd}`;
-    const to = from;
-
     const [donRes, statRes, logRes, prjcRes, dnrRes, expRes, usrRes] =
       await Promise.all([
         fetchDonations(year, month, search),
         fetchStats(),
-        fetchLogs(from, to),
+        fetchLogs(),
         fetchProjects(),
         fetchDonors(year, month, search),
         fetchExpenses(year, month),
@@ -62,6 +60,7 @@ const useAdminStore = create((set) => ({
   setExpenses: (e) => set({ expenses: e }),
   setUsers: (u) => set({ users: u }),
   setToken: (d) => set({ token: d }),
+  setLanguage: (l) => set({ language: l }),
   role: null,
   setRole: (r) => set({ role: r }),
   username: null,

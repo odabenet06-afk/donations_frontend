@@ -1,5 +1,6 @@
 import React from "react";
 import arrow from "../../assets/icons/arrow.png";
+import useAdminStore from "../services/store/adminStore";
 
 const ExpenseFilter = ({
   year,
@@ -17,14 +18,44 @@ const ExpenseFilter = ({
   months,
   handleSearch,
 }) => {
-  const categories = [
-    "Salary",
-    "Office materials",
-    "Transportation",
-    "Family support",
-    "Project investment",
-    "Other",
-  ];
+  const { language } = useAdminStore();
+
+  const dict = {
+    en: {
+      year: "Year",
+      month: "Month",
+      category: "Category",
+      allMonths: "All Months",
+      allCats: "All Categories",
+      search: "Search",
+      categories: ["Salary", "Office materials", "Transportation", "Family support", "Project investment", "Other"]
+    },
+    sq: {
+      year: "Viti",
+      month: "Muaji",
+      category: "Kategoria",
+      allMonths: "Të gjithë muajt",
+      allCats: "Të gjitha kategoritë",
+      search: "Kërko",
+      categories: ["Paga", "Materiale zyre", "Transporti", "Përkrahje familjare", "Investim në projekt", "Tjetër"]
+    },
+    mk: {
+      year: "Година",
+      month: "Месец",
+      category: "Категорија",
+      allMonths: "Сите месеци",
+      allCats: "Сите категории",
+      search: "Пребарај",
+      categories: ["Плата", "Канцелариски материјали", "Транспорт", "Семејна поддршка", "Инвестиција во проект", "Друго"]
+    }
+  };
+
+  const lang = dict[language] || dict.en;
+
+  // We map the translated categories but keep a reference to the English version 
+  // if your backend/filtering logic strictly expects English strings.
+  // If your database stores them translated, you can use lang.categories directly.
+  const categories = lang.categories;
 
   return (
     <div className="shadow-lg p-4 bg-white rounded-4xl mb-7 border border-gray-50">
@@ -32,7 +63,7 @@ const ExpenseFilter = ({
         {/* YEAR */}
         <div className="flex flex-col relative">
           <p className="text-xs ml-1 mb-1 font-bold text-gray-400 uppercase">
-            Year
+            {lang.year}
           </p>
           <button
             onClick={() => {
@@ -70,7 +101,7 @@ const ExpenseFilter = ({
         {/* MONTH */}
         <div className="flex flex-col relative">
           <p className="text-xs ml-1 mb-1 font-bold text-gray-400 uppercase">
-            Month
+            {lang.month}
           </p>
           <button
             onClick={() => {
@@ -80,7 +111,7 @@ const ExpenseFilter = ({
             }}
             className="h-12 text-start flex flex-row font-semibold justify-between items-center w-full bg-gray-50 border text-gray-600 px-3 border-slate-200 rounded-xl"
           >
-            {month ? months[month - 1].label : "All Months"}
+            {month ? months[month - 1].label : lang.allMonths}
             <img
               className={`w-5 h-5 transition-transform ${toggleMonth ? "rotate-180" : ""}`}
               src={arrow}
@@ -96,7 +127,7 @@ const ExpenseFilter = ({
                   setToggleMonth(false);
                 }}
               >
-                All Months
+                {lang.allMonths}
               </button>
               {months.map((m) => (
                 <button
@@ -117,7 +148,7 @@ const ExpenseFilter = ({
         {/* CATEGORY  */}
         <div className="flex flex-col relative">
           <p className="text-xs ml-1 mb-1 font-bold text-gray-400 uppercase">
-            Category
+            {lang.category}
           </p>
           <button
             onClick={() => {
@@ -127,7 +158,7 @@ const ExpenseFilter = ({
             }}
             className="h-12 text-start flex flex-row font-semibold justify-between items-center w-full bg-gray-50 border text-gray-600 px-3 border-slate-200 rounded-xl"
           >
-            {category || "All Categories"}
+            {category || lang.allCats}
             <img
               className={`w-5 h-5 transition-transform ${toggleCat ? "rotate-180" : ""}`}
               src={arrow}
@@ -143,7 +174,7 @@ const ExpenseFilter = ({
                   setToggleCat(false);
                 }}
               >
-                All Categories
+                {lang.allCats}
               </button>
               {categories.map((cat) => (
                 <button
@@ -168,9 +199,9 @@ const ExpenseFilter = ({
           </p>
           <button
             onClick={handleSearch}
-            className="h-12 border-gray-100 border shadow-sm font-bold rounded-full hover:bg-black transition-all active:scale-95"
+            className="h-12 border-gray-100 border shadow-sm font-bold rounded-full hover:bg-gray-100 transition-all active:scale-95 bg-white"
           >
-            Search
+            {lang.search}
           </button>
         </div>
       </div>

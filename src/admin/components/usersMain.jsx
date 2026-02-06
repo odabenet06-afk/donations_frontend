@@ -3,13 +3,56 @@ import UserRow from "./userRow";
 import CreateUserModal from "../modals/createUserModal";
 import EditUserModal from "../modals/editUserModal";
 import DeleteUserModal from "../modals/deleteUserModal";
+import useAdminStore from "../services/store/adminStore";
 
 const Users = ({ users }) => {
+  const { language } = useAdminStore();
   const [search, setSearch] = useState("");
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [isEditOpen, setIsEditOpen] = useState(false);
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
   const [selectedUser, setSelectedUser] = useState(null);
+
+  const dict = {
+    en: {
+      title: "Users",
+      registered: "users registered",
+      newUser: "New User",
+      searchPlaceholder: "Search by username...",
+      id: "ID",
+      username: "Username",
+      role: "Role",
+      createdDate: "Created Date",
+      actions: "Actions",
+      noUsers: "No users found.",
+    },
+    sq: {
+      title: "Përdoruesit",
+      registered: "përdorues të regjistruar",
+      newUser: "Përdorues i ri",
+      searchPlaceholder: "Kërko sipas emrit...",
+      id: "ID",
+      username: "Përdoruesi",
+      role: "Roli",
+      createdDate: "Data e krijimit",
+      actions: "Veprimet",
+      noUsers: "Nuk u gjet asnjë përdorues.",
+    },
+    mk: {
+      title: "Корисници",
+      registered: "регистрирани корисници",
+      newUser: "Нов корисник",
+      searchPlaceholder: "Пребарај по корисничко име...",
+      id: "ИД",
+      username: "Корисничко име",
+      role: "Улога",
+      createdDate: "Датум на креирање",
+      actions: "Акции",
+      noUsers: "Не се пронајдени корисници.",
+    },
+  };
+
+  const lang = dict[language] || dict.en;
 
   const handleEditUser = (user) => {
     setSelectedUser(user);
@@ -30,16 +73,16 @@ const Users = ({ users }) => {
       {/* Header & Create Button */}
       <div className="bg-white shadow-lg mb-7 rounded-3xl p-6 flex justify-between items-center border border-gray-50">
         <div>
-          <h1 className="text-xl font-bold text-slate-800">Users</h1>
+          <h1 className="text-xl font-bold text-slate-800">{lang.title}</h1>
           <p className="text-sm text-gray-500 font-medium mt-1">
-            {filteredUsers.length} users registered
+            {filteredUsers.length} {lang.registered}
           </p>
         </div>
         <button
           onClick={() => setIsCreateModalOpen(true)}
-          className="px-6 py-3 rounded-full font-bold   transition-all  border border-gray-100 shadow-sm"
+          className="px-6 py-3 rounded-full font-bold transition-all hover:bg-gray-100 border border-gray-100 shadow-sm"
         >
-          New User
+          {lang.newUser}
         </button>
       </div>
 
@@ -48,7 +91,7 @@ const Users = ({ users }) => {
         <div className="mb-6">
           <input
             type="text"
-            placeholder="Search by username..."
+            placeholder={lang.searchPlaceholder}
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             className="w-full max-w-md h-12 bg-gray-50 border border-slate-200 rounded-xl px-4 font-medium focus:outline-none focus:ring-2 focus:ring-slate-900/5"
@@ -59,16 +102,16 @@ const Users = ({ users }) => {
           <div className="min-w-[800px] flex flex-col gap-2">
             {/* Table Headers */}
             <div className="flex flex-row p-4 font-black text-gray-400 text-[11px] uppercase tracking-[0.15em] border-b border-gray-50 mb-2">
-              <div className="w-16 shrink-0 px-2">ID</div>
-              <div className="flex-1 px-2">Username</div>
-              <div className="w-40 shrink-0 px-2">Role</div>
-              <div className="w-48 shrink-0 px-2 text-right">Created Date</div>
-              <div className="w-32 shrink-0 text-center px-2">Actions</div>
+              <div className="w-16 shrink-0 px-2">{lang.id}</div>
+              <div className="flex-1 px-2">{lang.username}</div>
+              <div className="w-40 shrink-0 px-2">{lang.role}</div>
+              <div className="w-48 shrink-0 px-2 text-right">{lang.createdDate}</div>
+              <div className="w-32 shrink-0 text-center px-2">{lang.actions}</div>
             </div>
 
             {!filteredUsers.length ? (
               <div className="h-32 flex items-center justify-center text-gray-400 italic bg-gray-50 rounded-2xl">
-                No users found.
+                {lang.noUsers}
               </div>
             ) : (
               filteredUsers.map((user) => (

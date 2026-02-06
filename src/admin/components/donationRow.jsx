@@ -5,7 +5,27 @@ import editIcon from "../../assets/icons/edit.png";
 import useAdminStore from "../services/store/adminStore";
 
 const DonationRow = ({ donation, onDelete, onEdit }) => {
-  const { role } = useAdminStore();
+  const { role, language } = useAdminStore();
+
+  const dict = {
+    en: {
+      locked: "Locked",
+      editTitle: "Edit Donation",
+      voidTitle: "Void Donation",
+    },
+    sq: {
+      locked: "E mbyllur",
+      editTitle: "Ndrysho Donacionin",
+      voidTitle: "Anulo Donacionin",
+    },
+    mk: {
+      locked: "Заклучено",
+      editTitle: "Уреди донација",
+      voidTitle: "Поништи донација",
+    },
+  };
+
+  const lang = dict[language] || dict.en;
 
   return (
     <div className="flex flex-row bg-white p-4 rounded-2xl border border-gray-100 transition-shadow items-center hover:border-blue-100 group">
@@ -37,15 +57,14 @@ const DonationRow = ({ donation, onDelete, onEdit }) => {
       <div className="w-24 shrink-0 flex justify-center gap-2 px-2">
         {role === "staff" ? (
           <p className="text-[10px] text-gray-300 font-bold uppercase">
-            Locked
+            {lang.locked}
           </p>
         ) : (
           <>
-     
             <button
               onClick={() => onEdit(donation)}
-              className="hover:scale-110 transition-transform active:scale-90 p-2 rounded-full hover:bg-blue-50"
-              title="Edit Donation"
+              className="hover:scale-110 transition-transform active:scale-90 p-2 rounded-full"
+              title={lang.editTitle}
             >
               <img
                 className="w-5 h-5 opacity-70 group-hover:opacity-100"
@@ -54,11 +73,10 @@ const DonationRow = ({ donation, onDelete, onEdit }) => {
               />
             </button>
 
-       
             <button
               onClick={() => onDelete(donation.id)}
-              className="hover:scale-110 transition-transform active:scale-90 p-2 rounded-full hover:bg-red-50"
-              title="Void Donation"
+              className="hover:scale-110 transition-transform active:scale-90 p-2 rounded-full"
+              title={lang.voidTitle}
             >
               <img
                 className="w-5 h-5 opacity-70 group-hover:opacity-100"

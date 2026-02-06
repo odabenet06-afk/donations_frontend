@@ -9,7 +9,46 @@ import useAdminStore from "../services/store/adminStore";
 const Project = ({ prjct, i }) => {
   const [editModal, setEditModal] = useState(false);
   const [deleteModal, setDeleteModal] = useState(false);
-  const { role } = useAdminStore();
+  const { role, language } = useAdminStore(); // Pulled language from store
+
+  // Translation Dictionary
+  const dict = {
+    en: {
+      start: "Start",
+      end: "End",
+      status: "Status",
+      ongoing: "Ongoing",
+      // Status options
+      active: "Active",
+      completed: "Completed",
+    },
+    sq: {
+      start: "Fillimi",
+      end: "Mbarimi",
+      status: "Statusi",
+      ongoing: "Në vazhdim",
+      // Status options
+      active: "Aktiv",
+      completed: "I përfunduar",
+    },
+    mk: {
+      start: "Почеток",
+      end: "Крај",
+      status: "Статус",
+      ongoing: "Во тек",
+      // Status options
+      active: "Активен",
+      completed: "Завршен",
+    }
+  };
+
+  const lang = dict[language] || dict.en;
+
+  // Helper to translate the status value coming from DB
+  const translateStatus = (status) => {
+    const s = status?.toLowerCase();
+    return lang[s] || status;
+  };
 
   return (
     <div
@@ -22,7 +61,7 @@ const Project = ({ prjct, i }) => {
           <div className="w-10"></div>
         ) : (
           <button onClick={() => setEditModal(true)}>
-            <img className="w-10 h-10" src={edit} alt="" />
+            <img className="w-10 h-10" src={edit} alt="Edit" />
           </button>
         )}
         <h1 className="text-2xl mb-10 font-semibold">{prjct.name}</h1>
@@ -30,26 +69,30 @@ const Project = ({ prjct, i }) => {
           <div className="w-10"></div>
         ) : (
           <button onClick={() => setDeleteModal(true)}>
-            <img className="w-10 h-10" src={x} alt="" />
+            <img className="w-10 h-10" src={x} alt="Delete" />
           </button>
         )}
       </div>
 
       {/* MIDDLE SECTION: Description */}
-      <p className="  pb-4">{prjct.description}</p>
+      <p className="pb-4">{prjct?.description}</p>
 
-      {/* BOTTOM SECTION: Pushed to the bottom via mt-auto */}
-      <div className="mt-auto border-t-1 border-gray-100 pt-4">
-        <div className="flex flex-row justify-between">
-          <p>Start: {formatEUDate(prjct.start_date)}</p>
-          <p>
-            End:{" "}
-            {prjct.end_date == null ? "Ongoing" : formatEUDate(prjct.end_date)}
+      {/* BOTTOM SECTION */}
+      <div className="mt-auto border-t border-gray-100 pt-4">
+        <div className="flex flex-row justify-between text-sm">
+          <p className="text-gray-500">
+            <span className="font-bold text-gray-700">{lang.start}:</span> {formatEUDate(prjct.start_date)}
+          </p>
+          <p className="text-gray-500">
+            <span className="font-bold text-gray-700">{lang.end}:</span>{" "}
+            {prjct.end_date == null ? lang.ongoing : formatEUDate(prjct.end_date)}
           </p>
         </div>
-        <div className="flex mt-4 flex-row justify-between">
-          <p>Status: </p>
-          <p className="font-medium">{prjct.status}</p>
+        <div className="flex mt-4 flex-row justify-between items-center">
+          <p className="text-gray-500 font-bold">{lang.status}: </p>
+          <p className="font-medium px-3 py-1 bg-slate-50 rounded-lg text-xs uppercase tracking-wide">
+            {translateStatus(prjct.status)}
+          </p>
         </div>
       </div>
 
@@ -67,4 +110,5 @@ const Project = ({ prjct, i }) => {
     </div>
   );
 };
+
 export default Project;

@@ -1,17 +1,46 @@
 import React from "react";
 import arrow from "../../assets/icons/arrow.png";
 import searchIcon from "../../assets/icons/search.png";
+import useAdminStore from "../services/store/adminStore";
 
 const DonationFilter = ({ 
   year, setYear, month, setMonth, search, setSearch, 
   handleSearch, toggleYear, setToggleYear, toggleMonth, setToggleMonth, months 
 }) => {
+  const { language } = useAdminStore();
+
+  const dict = {
+    en: {
+      year: "Year",
+      month: "Month",
+      allMonths: "All Months",
+      all: "All",
+      placeholder: "Search donor or purpose..."
+    },
+    sq: {
+      year: "Viti",
+      month: "Muaji",
+      allMonths: "Të gjithë muajt",
+      all: "Të gjithë",
+      placeholder: "Kërko donatorin ose qëllimin..."
+    },
+    mk: {
+      year: "Година",
+      month: "Месец",
+      allMonths: "Сите месеци",
+      all: "Сите",
+      placeholder: "Пребарај донатор или цел..."
+    }
+  };
+
+  const lang = dict[language] || dict.en;
+
   return (
     <div className="shadow-lg h-40 p-4 col-span-1 lg:col-span-2 lg:h-32 bg-white rounded-4xl mb-7 border border-gray-50">
       <div className="grid grid-cols-2 lg:grid-cols-3">
         {/* YEAR */}
         <div className="h-20 flex flex-col bg-white px-2 col-span-1 relative">
-          <p className="text-xs lg:text-md ml-1 mb-1 font-bold text-gray-400 uppercase">Year</p>
+          <p className="text-xs lg:text-md ml-1 mb-1 font-bold text-gray-400 uppercase">{lang.year}</p>
           <div className="relative">
             <button
               onClick={() => { setToggleMonth(false); setToggleYear(!toggleYear); }}
@@ -40,23 +69,23 @@ const DonationFilter = ({
 
         {/* MONTH */}
         <div className="h-20 flex flex-col bg-white px-2 col-span-1 relative">
-          <p className="text-xs lg:text-md ml-1 mb-1 font-bold text-gray-400 uppercase">Month</p>
+          <p className="text-xs lg:text-md ml-1 mb-1 font-bold text-gray-400 uppercase">{lang.month}</p>
           <div className="relative">
             <button
               onClick={() => { setToggleMonth(!toggleMonth); setToggleYear(false); }}
               className="h-9 lg:h-12 lg:font-semibold w-full text-start flex flex-row justify-between items-center px-3 text-gray-600 bg-gray-50 border border-slate-200 rounded-xl"
             >
-              <p>{month ? months[month - 1].label : "All"}</p>
+              <p>{month ? months[month - 1].label : lang.all}</p>
               <img className={`w-5 h-5 lg:h-7 lg:w-7 transition-transform ${toggleMonth ? "rotate-180" : ""}`} src={arrow} alt="arrow" />
             </button>
             {toggleMonth && (
               <div className="absolute top-full left-0 mt-1 w-full bg-white border border-slate-200 rounded-xl shadow-md z-50 max-h-60 overflow-y-auto">
                 <div className="flex flex-col p-1">
                   <button
-                    className={`text-left px-3 py-2 text-sm ${!month ? "bg-gray-100 rounded-xl" : ""} hover:bg-gray-50 m-1`}
+                    className={`text-left px-3 py-2 text-sm ${!month ? "bg-gray-100 rounded-xl text-slate-900 font-bold" : "text-gray-600"} hover:bg-gray-50 m-1`}
                     onClick={() => { setMonth(null); setToggleMonth(false); }}
                   >
-                    All Months
+                    {lang.allMonths}
                   </button>
                   {months.map((m) => (
                     <button
@@ -79,10 +108,10 @@ const DonationFilter = ({
           <div className="h-10 lg:h-12 flex flex-row justify-between gap-3">
             <input
               type="text"
-              placeholder="Search donor or purpose..."
+              placeholder={lang.placeholder}
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="h-full w-full bg-gray-50 border border-slate-200 rounded-xl px-4 placeholder-gray-300 text-gray-600 focus:outline-none focus:border-blue-400 transition-colors"
+              className="h-full w-full bg-gray-50 border border-slate-200 rounded-xl px-4 placeholder-gray-300 text-gray-600 focus:outline-none transition-colors text-sm"
             />
             <button
               onClick={handleSearch}

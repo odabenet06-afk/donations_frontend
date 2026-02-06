@@ -2,7 +2,15 @@ import React from "react";
 import Logo from "../../assets/icons/openHands.png";
 import { NavLink } from "react-router-dom";
 
-const header = () => {
+const header = ({ lang = "en", setLang }) => {
+  const dict = {
+    en: { home: "HOME", projects: "PROJECTS" },
+    sq: { home: "BALLINA", projects: "PROJEKTET" },
+    mk: { home: "ДОМА", projects: "ПРОЕКТИ" }
+  };
+
+  const currentLang = dict[lang] || dict.en;
+
   return (
     <div className="h-20 md:h-24 bg-slate-50 flex w-full items-center justify-between border-black">
       <div className="flex flex-row items-center">
@@ -14,28 +22,32 @@ const header = () => {
         <h1 className="text-lg md:text-xl font-bold">OPENHANDS</h1>
       </div>
 
-      <div className="flex gap-4 lg:gap-8 lg:pr-8 text-md pr-4">
-        <NavLink
-          to="/"
-          className={({ isActive }) =>
-            isActive
-              ? "text-black font-semibold lg:text-xl"
-              : " text-gray-400 lg:text-xl"
-          }
-        >
-          HOME
-        </NavLink>
+      <div className="flex items-center gap-4 lg:gap-8 lg:pr-8 pr-4">
+        {/* Navigation Links */}
+        <div className="flex gap-4 lg:gap-8">
+          <NavLink
+            to="/"
+            className={({ isActive }) =>
+              isActive
+                ? "text-black font-semibold lg:text-xl"
+                : " text-gray-400 lg:text-xl"
+            }
+          >
+            {currentLang.home}
+          </NavLink>
 
-        <NavLink
-          to="/projects"
-          className={({ isActive }) =>
-            isActive
-              ? "text-black font-semibold lg:text-xl"
-              : "text-gray-400  lg:text-xl"
-          }
-        >
-          PROJECTS
-        </NavLink>
+          <NavLink
+            to="/projects"
+            className={({ isActive }) =>
+              isActive
+                ? "text-black font-semibold lg:text-xl"
+                : "text-gray-400  lg:text-xl"
+            }
+          >
+            {currentLang.projects}
+          </NavLink>
+        </div>
+
       </div>
     </div>
   );

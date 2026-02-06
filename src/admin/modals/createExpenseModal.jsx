@@ -3,11 +3,12 @@ import createExpense from "../services/functions/createExpense";
 import useAdminStore from "../services/store/adminStore";
 
 const CreateExpenseModal = ({ onClose }) => {
-  const { expenses, setExpenses, projects, user } = useAdminStore();
+  const { expenses, setExpenses, projects, user, language } = useAdminStore();
   const [success, setSuccess] = useState(false);
   const [amount, setAmount] = useState("");
   const [currency, setCurrency] = useState("MKD");
   const [category, setCategory] = useState("");
+  const [otherCategory, setOtherCategory] = useState("");
   const [description, setDescription] = useState("");
   const [projectName, setProjectName] = useState(null);
   const [attachmentUrl, setAttachmentUrl] = useState("");
@@ -16,25 +17,81 @@ const CreateExpenseModal = ({ onClose }) => {
   const [toggleProject, setToggleProject] = useState(false);
   const [toggleCategory, setToggleCategory] = useState(false);
 
-  const categories = [
-    "Salary",
-    "Office materials",
-    "Transportation",
-    "Family support",
-    "Project investment",
-    "Other",
-  ];
+  const dict = {
+    en: {
+      title: "Record Expense",
+      project: "Project",
+      selectProject: "Select Project",
+      category: "Category",
+      selectCategory: "Select Category",
+      enterCategory: "Enter Category",
+      amount: "Amount",
+      currency: "Currency",
+      attachment: "Receipt / Attachment URL",
+      testLink: "Test Link ↗",
+      description: "Description",
+      cancel: "Cancel",
+      record: "Record Expense",
+      errorMsg: "Please fill in the amount, category",
+      successMsg: "Changes saved successfully.",
+      general: "General",
+      categories: ["Salary", "Office materials", "Transportation", "Family support", "Project investment", "Other"]
+    },
+    sq: {
+      title: "Regjistro Shpenzimin",
+      project: "Projekti",
+      selectProject: "Zgjidh Projektin",
+      category: "Kategoria",
+      selectCategory: "Zgjidh Kategorinë",
+      enterCategory: "Shkruaj Kategorinë",
+      amount: "Shuma",
+      currency: "Valuta",
+      attachment: "Linku i dëshmisë / faturës",
+      testLink: "Testo Linkun ↗",
+      description: "Përshkrimi",
+      cancel: "Anulo",
+      record: "Regjistro",
+      errorMsg: "Ju lutemi plotësoni shumën dhe kategorinë",
+      successMsg: "Ndryshimet u ruajtën me sukses.",
+      general: "Gjenerale",
+      categories: ["Paga", "Materiale zyre", "Transporti", "Përkrahje familjare", "Investim në projekt", "Tjetër"]
+    },
+    mk: {
+      title: "Евидентирај трошок",
+      project: "Проект",
+      selectProject: "Избери проект",
+      category: "Категорија",
+      selectCategory: "Избери категорија",
+      enterCategory: "Внеси категорија",
+      amount: "Износ",
+      currency: "Валута",
+      attachment: "Линк до сметка / прилог",
+      testLink: "Тестирај линк ↗",
+      description: "Опис",
+      cancel: "Откажи",
+      record: "Зачувај трошок",
+      errorMsg: "Ве молиме пополнете износ и категорија",
+      successMsg: "Промените се успешно зачувани.",
+      general: "Општо",
+      categories: ["Плата", "Канцелариски материјали", "Транспорт", "Семејна поддршка", "Инвестиција во проект", "Друго"]
+    }
+  };
+
+  const lang = dict[language] || dict.en;
 
   const handleCreate = async () => {
     if (!amount || !category) {
-      setError("Please fill in the amount, category");
+      setError(lang.errorMsg);
       return;
     }
+    // Check against the translated word for "Other"
+    const isOther = category === lang.categories[5]; 
+    const selectedCategory = isOther ? otherCategory : category;
 
     const result = await createExpense(
       amount,
       currency.toUpperCase(),
-      category,
+      selectedCategory,
       description,
       projectName,
       attachmentUrl,
@@ -49,9 +106,9 @@ const CreateExpenseModal = ({ onClose }) => {
       id: result.id,
       amount,
       currency: currency.toUpperCase(),
-      category,
+      category: selectedCategory,
       description,
-      project_name: projectName ? projectName : "General",
+      project_name: projectName ? projectName : lang.general,
       attachment_url: attachmentUrl,
       created_by_username: user?.username || "Admin",
       created_at: new Date().toISOString(),
@@ -59,10 +116,10 @@ const CreateExpenseModal = ({ onClose }) => {
 
     setExpenses([newExpense, ...(expenses || [])]);
     setSuccess(true);
-    setError(null)
+    setError(null);
     setTimeout(() => {
       setSuccess(false);
-      onClose(); 
+      onClose();
     }, 2000);
   };
 
@@ -70,14 +127,13 @@ const CreateExpenseModal = ({ onClose }) => {
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-[rgba(0,0,0,0.4)] backdrop-blur-sm p-4">
       <div className="bg-white rounded-3xl shadow-xl w-full max-w-md p-6 border border-gray-100 max-h-[90vh] overflow-y-auto">
         <h2 className="text-xl font-bold mb-5 text-slate-800 tracking-tight">
-          Record Expense
+          {lang.title}
         </h2>
 
         <div className="flex flex-col gap-4">
-          {/* PROJECT & CATEGORY DROPDOWNS */}
           <div className="relative">
             <label className="text-sm font-semibold text-gray-500 mb-1 block">
-              Project
+              {lang.project}
             </label>
             <button
               onClick={() => {
@@ -86,10 +142,8 @@ const CreateExpenseModal = ({ onClose }) => {
               }}
               className="w-full text-left border border-gray-200 rounded-xl p-3 bg-white font-medium flex justify-between items-center hover:border-gray-300 transition-colors"
             >
-              <span
-                className={projectName ? "text-slate-900" : "text-gray-400"}
-              >
-                {projectName || "Select Project"}
+              <span className={projectName ? "text-slate-900" : "text-gray-400"}>
+                {projectName || lang.selectProject}
               </span>
               <span className="text-gray-400 text-xs text-[10px]">▼</span>
             </button>
@@ -115,7 +169,7 @@ const CreateExpenseModal = ({ onClose }) => {
 
           <div className="relative">
             <label className="text-sm font-semibold text-gray-500 mb-1 block">
-              Category
+              {lang.category}
             </label>
             <button
               onClick={() => {
@@ -125,14 +179,14 @@ const CreateExpenseModal = ({ onClose }) => {
               className="w-full text-left border border-gray-200 rounded-xl p-3 bg-white font-medium flex justify-between items-center hover:border-gray-300 transition-colors"
             >
               <span className={category ? "text-slate-900" : "text-gray-400"}>
-                {category || "Select Category"}
+                {category || lang.selectCategory}
               </span>
               <span className="text-gray-400 text-xs text-[10px]">▼</span>
             </button>
             {toggleCategory && (
               <div className="absolute top-full left-0 mt-1 w-full bg-white border border-slate-200 rounded-xl shadow-xl z-50 max-h-40 overflow-y-auto">
                 <div className="flex flex-col p-1">
-                  {categories.map((cat) => (
+                  {lang.categories.map((cat) => (
                     <button
                       key={cat}
                       className="text-left px-3 py-2 text-sm hover:bg-gray-50 rounded-lg m-0.5"
@@ -149,11 +203,21 @@ const CreateExpenseModal = ({ onClose }) => {
             )}
           </div>
 
-          {/* AMOUNT & CURRENCY */}
+          {category === lang.categories[5] && (
+            <div>
+              <input
+                className="w-full text-left border border-gray-200 rounded-xl p-3 bg-white font-medium flex justify-between items-center hover:border-gray-300 transition-colors"
+                placeholder={lang.enterCategory}
+                value={otherCategory}
+                onChange={(e) => setOtherCategory(e.target.value)}
+              />
+            </div>
+          )}
+
           <div className="flex gap-3">
             <div className="flex-1">
               <label className="text-sm font-semibold text-gray-500 mb-1 block">
-                Amount
+                {lang.amount}
               </label>
               <input
                 type="number"
@@ -164,7 +228,7 @@ const CreateExpenseModal = ({ onClose }) => {
             </div>
             <div className="w-28">
               <label className="text-sm font-semibold text-gray-500 mb-1 block">
-                Currency
+                {lang.currency}
               </label>
               <input
                 type="text"
@@ -175,11 +239,10 @@ const CreateExpenseModal = ({ onClose }) => {
             </div>
           </div>
 
-          {/* ATTACHMENT URL */}
           <div>
             <div className="flex justify-between items-center mb-1">
               <label className="text-sm font-semibold text-gray-500 block">
-                Receipt / Attachment URL
+                {lang.attachment}
               </label>
               {attachmentUrl && (
                 <a
@@ -188,23 +251,22 @@ const CreateExpenseModal = ({ onClose }) => {
                   rel="noreferrer"
                   className="text-[10px] font-bold text-blue-500 uppercase hover:underline"
                 >
-                  Test Link ↗
+                  {lang.testLink}
                 </a>
               )}
             </div>
             <input
               type="text"
-              placeholder="https://storage.com/receipt.pdf"
+              placeholder="https://..."
               value={attachmentUrl}
               onChange={(e) => setAttachmentUrl(e.target.value)}
               className="border border-gray-200 rounded-xl p-3 w-full font-medium text-sm focus:ring-2 focus:ring-blue-500 outline-none"
             />
           </div>
 
-          {/* DESCRIPTION */}
           <div>
             <label className="text-sm font-semibold text-gray-500 mb-1 block">
-              Description
+              {lang.description}
             </label>
             <textarea
               value={description}
@@ -220,22 +282,22 @@ const CreateExpenseModal = ({ onClose }) => {
           )}
           {success && (
             <p className="text-green-400 mt-4 text-sm font-medium">
-              Changes saved successfully.
+              {lang.successMsg}
             </p>
           )}
 
           <div className="flex justify-end gap-3 mt-2">
             <button
               onClick={onClose}
-              className="px-6 py-3 rounded-full bg-gray-100 text-gray-600 font-bold"
+              className="px-6 py-3 rounded-full bg-gray-100 text-gray-600 font-bold hover:bg-gray-200 transition-colors"
             >
-              Cancel
+              {lang.cancel}
             </button>
             <button
               onClick={handleCreate}
-              className="px-6 py-3 rounded-full bg-slate-900 text-white font-bold shadow-lg"
+              className="px-6 py-3 rounded-full bg-slate-900 text-white font-bold shadow-lg active:scale-95 transition-all"
             >
-              Record Expense
+              {lang.record}
             </button>
           </div>
         </div>

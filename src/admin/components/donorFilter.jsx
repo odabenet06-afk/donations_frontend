@@ -1,6 +1,7 @@
 import React from "react";
 import arrow from "../../assets/icons/arrow.png";
 import searchIcon from "../../assets/icons/search.png";
+import useAdminStore from "../services/store/adminStore";
 
 const DonorFilter = ({
   year,
@@ -16,13 +17,38 @@ const DonorFilter = ({
   setToggleMonth,
   months,
 }) => {
+  const { language } = useAdminStore();
+
+  const dict = {
+    en: {
+      year: "Year",
+      month: "Month",
+      allMonths: "All Months",
+      searchPlaceholder: "Search by name...",
+    },
+    sq: {
+      year: "Viti",
+      month: "Muaji",
+      allMonths: "Të gjithë muajt",
+      searchPlaceholder: "Kërko me emër...",
+    },
+    mk: {
+      year: "Година",
+      month: "Месец",
+      allMonths: "Сите месеци",
+      searchPlaceholder: "Пребарај по име...",
+    },
+  };
+
+  const lang = dict[language] || dict.en;
+
   return (
     <div className="shadow-lg h-40 p-4 col-span-1 lg:col-span-2 lg:h-32 bg-white rounded-4xl mb-7 border border-gray-50">
       <div className="grid grid-cols-2 lg:grid-cols-3">
         {/* YEAR */}
         <div className="h-20 flex flex-col bg-white px-2 col-span-1 relative">
           <p className="text-xs lg:text-md ml-1 mb-1 font-bold text-gray-400 uppercase">
-            Year
+            {lang.year}
           </p>
           <div className="relative">
             <button
@@ -63,7 +89,7 @@ const DonorFilter = ({
         {/* MONTH */}
         <div className="h-20 flex flex-col bg-white px-2 col-span-1 relative">
           <p className="text-xs lg:text-md ml-1 mb-1 font-bold text-gray-400 uppercase">
-            Month
+            {lang.month}
           </p>
           <div className="relative">
             <button
@@ -73,7 +99,7 @@ const DonorFilter = ({
               }}
               className="h-9 lg:h-12 lg:font-semibold w-full text-start flex flex-row justify-between items-center px-3 text-gray-600 bg-gray-50 border border-slate-200 rounded-xl"
             >
-              <p>{month ? months[month - 1].label : "All"}</p>
+              <p>{month ? months[month - 1].label : lang.allMonths}</p>
               <img
                 className={`w-5 h-5 lg:h-7 lg:w-7 transition-transform ${toggleMonth ? "rotate-180" : ""}`}
                 src={arrow}
@@ -90,7 +116,7 @@ const DonorFilter = ({
                       setToggleMonth(false);
                     }}
                   >
-                    All Months
+                    {lang.allMonths}
                   </button>
                   {months.map((m) => (
                     <button
@@ -118,10 +144,10 @@ const DonorFilter = ({
           <div className="h-10 lg:h-12 flex flex-row justify-between gap-3">
             <input
               type="text"
-              placeholder="Search by name..."
+              placeholder={lang.searchPlaceholder}
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="h-full w-full bg-gray-50 border border-slate-200 rounded-xl px-4 placeholder-gray-300 text-gray-600 focus:outline-none focus:border-blue-400 transition-colors"
+              className="h-full w-full bg-gray-50 border border-slate-200 rounded-xl px-4 placeholder-gray-300 text-gray-600 focus:outline-none transition-colors"
             />
             <button
               onClick={handleSearch}
