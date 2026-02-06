@@ -58,7 +58,7 @@ const Logs = () => {
 
   const lang = dict[language] || dict.en;
 
-  // Filtering & Sorting
+
   const filteredLogs = useMemo(() => {
     if (!logs || !Array.isArray(logs)) return [];
     
@@ -77,7 +77,6 @@ const Logs = () => {
     return filtered.sort((a, b) => new Date(b.changed_at) - new Date(a.changed_at));
   }, [logs, from, to]);
 
-  // Pagination Logic
   const totalPages = Math.ceil(filteredLogs.length / itemsPerPage);
   const currentLogs = filteredLogs.slice(
     (currentPage - 1) * itemsPerPage,
