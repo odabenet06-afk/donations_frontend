@@ -19,9 +19,8 @@ const AdminRoot = () => {
   };
 
   const [current, setCurrent] = useState(getPathName());
-  const { role, logOut, language, setLanguage, isAuthorised } = useAdminStore();
+  const { role, logOut, language, setLanguage, isAuthorised, loadDashboardData } = useAdminStore();
 
-  if (!isAuthorised) return <Navigate to="/login" replace />;
   
   const { data: otherData, loading, error } = useData(currentYear, currentMonth);
 
