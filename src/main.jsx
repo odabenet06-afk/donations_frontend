@@ -1,7 +1,7 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import "./index.css";
-import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import { RouterProvider, createBrowserRouter, Navigate } from "react-router-dom";
 import Home from "./ledger/pages/home.jsx";
 import Projects from "./ledger/pages/projects.jsx";
 import Donations from "./admin/pages/donations.jsx";

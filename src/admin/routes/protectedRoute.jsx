@@ -1,7 +1,7 @@
 import { Navigate, Outlet } from "react-router-dom";
 import { useEffect, useState } from "react";
 import useAdminStore from "../services/store/adminStore";
-import checkToken from "../services/checkToken";
+import checkToken from "../services/functions/checkToken";
 
 const ProtectedRoute = () => {
   const isAuthorised = useAdminStore((state) => state.isAuthorised);

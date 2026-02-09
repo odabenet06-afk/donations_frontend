@@ -21,6 +21,8 @@ const AdminRoot = () => {
   const [current, setCurrent] = useState(getPathName());
   const { role, logOut, language, setLanguage, isAuthorised, loadDashboardData } = useAdminStore();
 
+  console.log(isAuthorised)
+
   
   const { data: otherData, loading, error } = useData(currentYear, currentMonth);
 
