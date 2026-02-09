@@ -20,7 +20,7 @@ const useAdminStore = create((set) => ({
   donors: null,
   expenses: null,
   users: null,
-  language: "mk",
+  language: "sq",
 
   loadDashboardData: async (year, month, search = "") => {
     set({ loading: true });
@@ -59,7 +59,6 @@ const useAdminStore = create((set) => ({
   setDonors: (d) => set({ donors: d }),
   setExpenses: (e) => set({ expenses: e }),
   setUsers: (u) => set({ users: u }),
-  setToken: (d) => set({ token: d }),
   setLanguage: (l) => set({ language: l }),
   role: null,
   setRole: (r) => set({ role: r }),

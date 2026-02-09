@@ -2,8 +2,11 @@ import React, { useState, useEffect } from "react";
 import Home from "./home.jsx";
 import useDataStore from "../services/store/dataStore.js";
 import Project from "../components/project.jsx";
+import { useOutletContext } from "react-router-dom";
 
-const Projects = ({ lang = "en" }) => {
+const Projects = () => {
+
+    const { lang } = useOutletContext();
   const storeData = useDataStore((state) => state.storeData);
 
   const allProjects = storeData?.projects ?? [];

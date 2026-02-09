@@ -1,20 +1,17 @@
 import useAdminStore from "../store/adminStore";
 
-const auth = async (username, password) => {
-  const { setIsAuthorised, setToken, setRole, setUsername } =
-    useAdminStore.getState();
+const checkToken = async () => {
+  const token = localStorage.getItem("token");
+  const { setIsAuthorised, setRole, setUsername } = useAdminStore.getState();
 
   const response = await fetch(
-    "https://" + import.meta.env.VITE_API_URL + "/admin/auth",
+    "https://" + import.meta.env.VITE_API_URL + "/admin/check-token",
     {
       method: "POST",
       headers: {
+        Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({
-        username,
-        password,
-      }),
     },
   );
   const data = await response.json();
@@ -22,11 +19,9 @@ const auth = async (username, password) => {
     return { success: false, error: data.message };
   }
   setIsAuthorised(true);
-  setToken(data.token);
   setRole(data.role);
   setUsername(data.username);
-  localStorage.setItem("token", data.token)
   return { success: true, role: data.role };
 };
 
-export default auth;
+export default checkToken;

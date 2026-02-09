@@ -12,7 +12,6 @@ const AdminRoot = () => {
   const [toggleSidebar, setToggleSideBar] = useState(false);
   const [current, setCurrent] = useState("Dashboard");
 
-  // Added setLanguage to destructuring
   const { role, logOut, language, setLanguage, loadDashboardData } = useAdminStore();
   
   const { data: otherData, loading, error } = useData(currentYear, currentMonth);

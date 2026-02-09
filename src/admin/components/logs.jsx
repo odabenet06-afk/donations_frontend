@@ -5,11 +5,11 @@ import LogRow from "./logRow";
 
 const Logs = () => {
   const { logs, language } = useAdminStore();
-  
+
   const [from, setFrom] = useState("");
   const [to, setTo] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 10; 
+  const itemsPerPage = 10;
 
   const dict = {
     en: {
@@ -24,7 +24,7 @@ const Logs = () => {
       prev: "Previous",
       next: "Next",
       page: "Page",
-      of: "of"
+      of: "of",
     },
     sq: {
       action: "Veprimi",
@@ -38,7 +38,7 @@ const Logs = () => {
       prev: "Para",
       next: "Pas",
       page: "Faqja",
-      of: "nga"
+      of: "nga",
     },
     mk: {
       action: "Акција",
@@ -52,35 +52,40 @@ const Logs = () => {
       prev: "Претходна",
       next: "Следна",
       page: "Страна",
-      of: "од"
-    }
+      of: "од",
+    },
   };
 
   const lang = dict[language] || dict.en;
 
-
   const filteredLogs = useMemo(() => {
     if (!logs || !Array.isArray(logs)) return [];
-    
+
     let filtered = [...logs];
 
     if (from) {
       const start = new Date(from).setHours(0, 0, 0, 0);
-      filtered = filtered.filter(log => new Date(log.changed_at).getTime() >= start);
+      filtered = filtered.filter(
+        (log) => new Date(log.changed_at).getTime() >= start,
+      );
     }
 
     if (to) {
       const end = new Date(to).setHours(23, 59, 59, 999);
-      filtered = filtered.filter(log => new Date(log.changed_at).getTime() <= end);
+      filtered = filtered.filter(
+        (log) => new Date(log.changed_at).getTime() <= end,
+      );
     }
 
-    return filtered.sort((a, b) => new Date(b.changed_at) - new Date(a.changed_at));
+    return filtered.sort(
+      (a, b) => new Date(b.changed_at) - new Date(a.changed_at),
+    );
   }, [logs, from, to]);
 
   const totalPages = Math.ceil(filteredLogs.length / itemsPerPage);
   const currentLogs = filteredLogs.slice(
     (currentPage - 1) * itemsPerPage,
-    currentPage * itemsPerPage
+    currentPage * itemsPerPage,
   );
 
   useEffect(() => {
@@ -89,12 +94,7 @@ const Logs = () => {
 
   return (
     <div className="p-5 flex flex-col h-full max-w-full">
-      <LogFilter
-        from={from}
-        setFrom={setFrom}
-        to={to}
-        setTo={setTo}
-      />
+      <LogFilter from={from} setFrom={setFrom} to={to} setTo={setTo} />
 
       <div className="w-full bg-white rounded-[32px] border border-slate-100 shadow-xl shadow-slate-200/50 overflow-hidden p-6">
         <div className="overflow-x-auto">
@@ -114,7 +114,9 @@ const Logs = () => {
                 {logs?.length === 0 ? lang.loading : lang.empty}
               </div>
             ) : (
-              currentLogs.map((log) => <LogRow key={log.id || log.changed_at} log={log} />)
+              currentLogs.map((log) => (
+                <LogRow key={log.id || log.changed_at} log={log} />
+              ))
             )}
           </div>
         </div>
