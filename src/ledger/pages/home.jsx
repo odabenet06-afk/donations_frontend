@@ -87,4 +87,4 @@ const Home = ({ reusable, footer, lang: propLang }) => {
   );
 };
 
-export default home;
+export default Home;
