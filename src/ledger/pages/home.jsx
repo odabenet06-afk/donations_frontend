@@ -7,8 +7,9 @@ import Footer from "../components/footer";
 import useDataStore from "../services/store/dataStore";
 import { useOutletContext } from "react-router-dom";
 
-const home = ({ reusable, footer }) => {
-  const { lang } = useOutletContext();
+const Home = ({ reusable, footer, lang: propLang }) => {
+  const context = useOutletContext() || {};
+  const lang = propLang || context.lang || "en";
   const today = new Date();
   const currentYear = today.getFullYear();
   const { storeData } = useDataStore();
