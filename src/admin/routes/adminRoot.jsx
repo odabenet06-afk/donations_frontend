@@ -6,25 +6,37 @@ import openHands from "../../assets/icons/openHands.png";
 import useData from "../../ledger/hooks/useData";
 
 const AdminRoot = () => {
-  
   const today = new Date();
   const currentYear = today.getFullYear();
   const currentMonth = today.getMonth() + 1;
   const location = useLocation();
   const [toggleSidebar, setToggleSideBar] = useState(false);
-  
+
   const getPathName = () => {
     const path = location.pathname.split("/").pop();
-    return path.charAt(0).toUpperCase() + path.slice(1) || "Dashboard";
+
+    if (!path || path === "admin") return "Dashboard";
+
+    return path.charAt(0).toUpperCase() + path.slice(1);
   };
 
   const [current, setCurrent] = useState(getPathName());
-  const { role, logOut, language, setLanguage, isAuthorised, loadDashboardData } = useAdminStore();
+  const {
+    role,
+    logOut,
+    language,
+    setLanguage,
+    isAuthorised,
+    loadDashboardData,
+  } = useAdminStore();
 
-  console.log(isAuthorised)
+  console.log(isAuthorised);
 
-  
-  const { data: otherData, loading, error } = useData(currentYear, currentMonth);
+  const {
+    data: otherData,
+    loading,
+    error,
+  } = useData(currentYear, currentMonth);
 
   const dict = {
     en: {
@@ -35,7 +47,7 @@ const AdminRoot = () => {
       Expenses: "Expenses",
       Users: "Users",
       Logs: "Logs",
-      logout: "LOG OUT"
+      logout: "LOG OUT",
     },
     sq: {
       Dashboard: "Paneli",
@@ -45,7 +57,7 @@ const AdminRoot = () => {
       Expenses: "Shpenzimet",
       Users: "Përdoruesit",
       Logs: "Regjistrat",
-      logout: "ÇKYÇU"
+      logout: "ÇKYÇU",
     },
     mk: {
       Dashboard: "Контролна табла",
@@ -55,8 +67,8 @@ const AdminRoot = () => {
       Expenses: "Трошоци",
       Users: "Корисници",
       Logs: "Записи",
-      logout: "ОДЈАВИ СЕ"
-    }
+      logout: "ОДЈАВИ СЕ",
+    },
   };
 
   const lang = dict[language] || dict.en;
@@ -84,6 +96,10 @@ const AdminRoot = () => {
   useEffect(() => {
     loadDashboardData(today.getFullYear(), today.getMonth() + 1);
   }, []);
+
+  useEffect(() => {
+    setCurrent(getPathName());
+  }, [location.pathname]);
 
   return (
     <div className="bg-slate-50 flex min-h-screen overflow-x-hidden">

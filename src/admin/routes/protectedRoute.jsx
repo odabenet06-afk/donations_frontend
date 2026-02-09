@@ -21,7 +21,7 @@ const ProtectedRoute = () => {
   if (checking) {
     return (
       <div className="h-screen w-screen flex items-center justify-center">
-        <p className="animate-pulse font-bold text-slate-500">Verifying Session...</p>
+        <p className="animate-pulse font-bold text-slate-500">Verifying User...</p>
       </div>
     );
   }
