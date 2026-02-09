@@ -1,4 +1,4 @@
-import { Outlet, Link, useLocation, Navigate } from "react-router-dom";
+import { Outlet, Link, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import useAdminStore from "../services/store/adminStore";
 import x from "../../assets/icons/x.png";
