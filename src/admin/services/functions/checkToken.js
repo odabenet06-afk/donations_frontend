@@ -1,8 +1,8 @@
 import useAdminStore from "../store/adminStore";
 
 const checkToken = async () => {
+  const { setIsAuthorised, setRole, setUsername, setToken } = useAdminStore.getState();
   const token = localStorage.getItem("token");
-  const { setIsAuthorised, setRole, setUsername } = useAdminStore.getState();
 
   if (!token) {
     setIsAuthorised(false);
@@ -18,23 +18,26 @@ const checkToken = async () => {
           Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",
         },
-      },
+      }
     );
 
     const data = await response.json();
 
     if (!response.ok) {
       setIsAuthorised(false);
+      localStorage.removeItem("token");
       return { success: false, error: data.message };
     }
 
     setIsAuthorised(true);
+    setToken(token);
     setRole(data.role);
     setUsername(data.username);
 
-    return { success: true, role: data.role };
+    return { success: true };
   } catch (err) {
     setIsAuthorised(false);
+    localStorage.removeItem("token");
     return { success: false, error: err.message };
   }
 };
