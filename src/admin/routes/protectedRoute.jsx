@@ -1,30 +1,32 @@
 import { Navigate, Outlet } from "react-router-dom";
-import useAdminStore from "../services/store/adminStore";
 import { useEffect, useState } from "react";
-import checkToken from "../services/functions/checkToken";
+import useAdminStore from "../services/store/adminStore";
+import checkToken from "../services/checkToken";
 
 const ProtectedRoute = () => {
-  const { isAuthorised, token } = useAdminStore();
-  const [loading, setLoading] = useState(true);
+  const isAuthorised = useAdminStore((state) => state.isAuthorised);
+  const [checking, setChecking] = useState(true);
 
   useEffect(() => {
     const verify = async () => {
+
       await checkToken();
-      setLoading(false);
+      setChecking(false);
     };
+
 
     verify();
   }, []);
 
-  if (loading) {
-    return null;
+  if (checking) {
+    return (
+      <div className="h-screen w-screen flex items-center justify-center">
+        <p className="animate-pulse font-bold text-slate-500">Verifying Session...</p>
+      </div>
+    );
   }
 
-  if (!isAuthorised) {
-    return <Navigate to="/login" replace />;
-  }
-
-  return <Outlet />;
+  return isAuthorised ? <Outlet /> : <Navigate to="/login" replace />;
 };
 
 export default ProtectedRoute;

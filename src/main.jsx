@@ -34,24 +34,25 @@ const router = createBrowserRouter([
   },
 
   {
-    path: "/admin",
-    element: <ProtectedRoute />,
-    children: [
-      {
-        path: "",
-        element: <AdminRoot />,
-        children: [
-          { path: "dashboard", element: <Dashboard /> },
-          { path: "project", element: <AdminProjects /> },
-          { path: "donors", element: <Donors /> },
-          { path: "donations", element: <Donations /> },
-          { path: "expenses", element: <Expenses /> },
-          { path: "users", element: <Users /> },
-          { path: "logs", element: <Logs /> },
-        ],
-      },
-    ],
-  },
+  path: "/admin",
+  element: <ProtectedRoute />,
+  children: [
+    {
+      path: "",
+      element: <AdminRoot />,
+      children: [
+        { index: true, element: <Navigate to="dashboard" replace /> },
+        { path: "dashboard", element: <Dashboard /> },
+        { path: "project", element: <AdminProjects /> },
+        { path: "donors", element: <Donors /> },
+        { path: "donations", element: <Donations /> },
+        { path: "expenses", element: <Expenses /> },
+        { path: "users", element: <Users /> },
+        { path: "logs", element: <Logs /> },
+      ],
+    },
+  ],
+},
   {
     path: "/login",
     element: <LoginPage />,

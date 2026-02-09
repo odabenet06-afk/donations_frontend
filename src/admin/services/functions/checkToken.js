@@ -26,6 +26,7 @@ const checkToken = async () => {
     if (!response.ok) {
       setIsAuthorised(false);
       localStorage.removeItem("token");
+      console.log("token failed")
       return { success: false, error: data.message };
     }
 
