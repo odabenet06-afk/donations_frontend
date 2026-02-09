@@ -9,21 +9,12 @@ const ProtectedRoute = () => {
 
   useEffect(() => {
     const verify = async () => {
-      const mainToken = localStorage.getItem("token");
-      if (!mainToken) {
-        setLoading(false);
-        return;
-      }
-
-      const result = await checkToken();
-      if (!result.success) {
-        localStorage.removeItem("token");
-      }
+      await checkToken();
       setLoading(false);
     };
 
     verify();
-  }, [token]);
+  }, []);
 
   if (loading) {
     return null;
