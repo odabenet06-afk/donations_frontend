@@ -65,6 +65,7 @@ const useAdminStore = create((set) => ({
   username: null,
   setUsername: (u) => set({ username: u }),
   logOut: () => {
+    localStorage.clear();
     set({
       isAuthorised: false,
       donations: null,

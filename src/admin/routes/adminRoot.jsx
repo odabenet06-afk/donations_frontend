@@ -1,4 +1,4 @@
-import { Outlet, Link } from "react-router-dom";
+import { Outlet, Link, useLocation, Navigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import useAdminStore from "../services/store/adminStore";
 import x from "../../assets/icons/x.png";
@@ -6,13 +6,22 @@ import openHands from "../../assets/icons/openHands.png";
 import useData from "../../ledger/hooks/useData";
 
 const AdminRoot = () => {
+  
   const today = new Date();
   const currentYear = today.getFullYear();
   const currentMonth = today.getMonth() + 1;
+  const location = useLocation();
   const [toggleSidebar, setToggleSideBar] = useState(false);
-  const [current, setCurrent] = useState("Dashboard");
+  
+  const getPathName = () => {
+    const path = location.pathname.split("/").pop();
+    return path.charAt(0).toUpperCase() + path.slice(1) || "Dashboard";
+  };
 
-  const { role, logOut, language, setLanguage, loadDashboardData } = useAdminStore();
+  const [current, setCurrent] = useState(getPathName());
+  const { role, logOut, language, setLanguage, isAuthorised } = useAdminStore();
+
+  if (!isAuthorised) return <Navigate to="/login" replace />;
   
   const { data: otherData, loading, error } = useData(currentYear, currentMonth);
 
