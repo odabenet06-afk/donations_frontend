@@ -52,7 +52,7 @@ const AdminRoot = () => {
     sq: {
       Dashboard: "Paneli",
       Project: "Projektet",
-      Donors: "Donorët",
+      Donors: "Donatorët",
       Donations: "Donacionet",
       Expenses: "Shpenzimet",
       Users: "Përdoruesit",
