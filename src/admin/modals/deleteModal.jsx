@@ -8,7 +8,7 @@ const ConfirmDeleteModal = ({ onCancel, id, username, type }) => {
   const { donors, setDonors, users, setUsers, projects, setProjects, language } =
     useAdminStore();
 
-  // Translation Dictionary
+
   const dict = {
     en: {
       title: "Are you sure?",
@@ -45,7 +45,6 @@ const ConfirmDeleteModal = ({ onCancel, id, username, type }) => {
       return;
     }
 
-    // Logic remains in English/Original format for state management
     if (type === "donor") {
       setDonors(donors.filter((d) => d.donor_public_id !== id));
     } else if (type === "user") {
@@ -59,7 +58,7 @@ const ConfirmDeleteModal = ({ onCancel, id, username, type }) => {
     
     setTimeout(() => {
       setSuccess(false);
-      onCancel(); // Fixed: using onCancel to close the modal
+      onCancel(); 
     }, 2000);
   };
 

@@ -7,8 +7,8 @@ const LogIn = () => {
   const navigate = useNavigate();
   const { setLanguage, language } = useAdminStore(); 
   
-  const [username, setUsername] = useState(null);
-  const [password, setPassword] = useState(null);
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState(null);
 

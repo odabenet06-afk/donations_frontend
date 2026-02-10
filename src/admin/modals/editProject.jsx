@@ -3,10 +3,9 @@ import editProject from "../services/functions/editProject";
 import useAdminStore from "../services/store/adminStore";
 
 const EditProjectModal = ({ onClose, prjct }) => {
-  // Pull language from store to handle UI translation
   const { projects, setProjects, language } = useAdminStore();
 
-  // Component State
+
   const [name, setName] = useState(prjct?.name || "");
   const [description, setDescription] = useState(prjct?.description || "");
   const [status, setStatus] = useState(prjct?.status || "planned");
@@ -19,7 +18,7 @@ const EditProjectModal = ({ onClose, prjct }) => {
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(false);
 
-  // 1. Translation Dictionary
+
   const dict = {
     en: {
       title: "Edit Project",
@@ -70,11 +69,10 @@ const EditProjectModal = ({ onClose, prjct }) => {
 
   const lang = dict[language] || dict.en;
 
-  // 2. Data stays English, UI shows Translation
   const statusOptions = ["planned", "active", "completed"];
 
   const handleUpdate = async () => {
-    // Status here is always "planned", "active", or "completed" (English)
+
     const result = await editProject(
       prjct.id,
       name,

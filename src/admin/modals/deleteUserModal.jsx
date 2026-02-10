@@ -52,7 +52,7 @@ const DeleteUserModal = ({ userToDelete, onCancel }) => {
     setError(null);
     setTimeout(() => {
       setSuccess(false);
-      onCancel(); // Fixed: changed from onClose to onCancel
+      onCancel(); 
     }, 2000);
   };
 
