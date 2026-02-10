@@ -79,7 +79,7 @@ const EditProjectModal = ({ onClose, prjct }) => {
     status,        
     startDate,    
     endDate,       
-    prjct.id
+    Number(prjct.id)
     );
 
     if (!result.success) {
