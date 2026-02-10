@@ -5,7 +5,6 @@ import useAdminStore from "../services/store/adminStore";
 const EditProjectModal = ({ onClose, prjct }) => {
   const { projects, setProjects, language } = useAdminStore();
 
-
   const [name, setName] = useState(prjct?.name || "");
   const [description, setDescription] = useState(prjct?.description || "");
   const [status, setStatus] = useState(prjct?.status || "planned");
@@ -17,7 +16,6 @@ const EditProjectModal = ({ onClose, prjct }) => {
   );
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(false);
-
 
   const dict = {
     en: {
@@ -33,7 +31,7 @@ const EditProjectModal = ({ onClose, prjct }) => {
       errorMsg: "Something went wrong",
       planned: "Planned",
       active: "Active",
-      completed: "Completed"
+      completed: "Completed",
     },
     sq: {
       title: "Redakto Projektin",
@@ -48,7 +46,7 @@ const EditProjectModal = ({ onClose, prjct }) => {
       errorMsg: "Diçka shkoi keq",
       planned: "Planifikuar",
       active: "Aktiv",
-      completed: "Përfunduar"
+      completed: "Përfunduar",
     },
     mk: {
       title: "Уреди Проект",
@@ -63,8 +61,8 @@ const EditProjectModal = ({ onClose, prjct }) => {
       errorMsg: "Нешто тргна наопаку",
       planned: "Планирано",
       active: "Активен",
-      completed: "Завршен"
-    }
+      completed: "Завршен",
+    },
   };
 
   const lang = dict[language] || dict.en;
@@ -72,14 +70,13 @@ const EditProjectModal = ({ onClose, prjct }) => {
   const statusOptions = ["planned", "active", "completed"];
 
   const handleUpdate = async () => {
-
     const result = await editProject(
-    name,          
-    description,   
-    status,        
-    startDate,    
-    endDate,       
-    Number(prjct.id)
+      name,
+      description,
+      status,
+      startDate,
+      endDate,
+      Number(prjct.id), // <- make sure this is a number
     );
 
     if (!result.success) {
@@ -103,7 +100,7 @@ const EditProjectModal = ({ onClose, prjct }) => {
     setProjects(updatedList);
     setSuccess(true);
     setError(null);
-    
+
     setTimeout(() => {
       setSuccess(false);
       onClose();
