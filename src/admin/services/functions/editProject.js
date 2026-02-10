@@ -1,6 +1,13 @@
 import useAdminStore from "../store/adminStore";
 
-const editProject = async (name, description, status, startDate, endDate, id) => {
+const editProject = async (
+  name,
+  description,
+  status,
+  startDate,
+  endDate,
+  id,
+) => {
   const { token } = useAdminStore.getState();
 
   const formatValue = (val) => {
@@ -18,21 +25,20 @@ const editProject = async (name, description, status, startDate, endDate, id) =>
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        id: String(id), 
         name,
         description: description || "",
         status,
         startDate: formatValue(startDate),
         endDate: formatValue(endDate),
+        id: Number(id),
       }),
-    }
+    },
   );
 
   const data = await response.json();
-  
+
   if (!response.ok) {
-    // LOG THIS: It will tell you exactly which field failed
-    console.error("Zod Validation Error Details:", data.error); 
+    console.error("Zod Validation Error Details:", data.error);
     return { success: false, error: data.error || "Validation failed" };
   }
   return { success: true };
