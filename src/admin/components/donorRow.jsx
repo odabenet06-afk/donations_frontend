@@ -41,7 +41,7 @@ const DonorRow = ({ donor, onEdit, onDelete }) => {
         #{donor.donor_public_id}
       </div>
       <div className="w-48 shrink-0 font-bold text-slate-700 text-sm truncate">
-        {donor.full_name}
+        {donor.first_name + " " + donor.last_name}
       </div>
       <div className="w-56 shrink-0 text-gray-500 text-sm truncate pr-4">
         {donor.email}
@@ -60,7 +60,7 @@ const DonorRow = ({ donor, onEdit, onDelete }) => {
       <div className="w-32 shrink-0 text-right pr-4 text-gray-500 font-medium text-xs">
         {formatEUDate(donor.created_at)}
       </div>
-      
+
       {/* ACTIONS */}
       <div className="w-24 shrink-0 flex justify-center gap-2 px-2">
         <button
