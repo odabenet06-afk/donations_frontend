@@ -74,12 +74,12 @@ const EditProjectModal = ({ onClose, prjct }) => {
   const handleUpdate = async () => {
 
     const result = await editProject(
-      prjct.id,
-      name,
-      description,
-      status,
-      startDate,
-      endDate,
+    name,          
+    description,   
+    status,        
+    startDate,    
+    endDate,       
+    prjct.id
     );
 
     if (!result.success) {
