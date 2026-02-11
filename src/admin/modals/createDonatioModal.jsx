@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import createDonation  from "../services/functions/createDonation";
+import createDonation from "../services/functions/createDonation";
 
 import fetchDonors from "../services/functions/fetchDonors";
 import useAdminStore from "../services/store/adminStore";
