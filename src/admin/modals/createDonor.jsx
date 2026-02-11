@@ -88,7 +88,7 @@ const CreateDonorModal = ({ onClose }) => {
 
     const newDonor = {
       id: result.id,
-      donor_public_id: result.donor_public_id,
+      donor_public_id: result.public_id,
       first_name: firstName,
       last_name: lastName,
       email,

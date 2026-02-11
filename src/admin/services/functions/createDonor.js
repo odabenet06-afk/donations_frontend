@@ -30,7 +30,7 @@ const createDonor = async (
   if (!response.ok) {
     return { success: false, error: data.error };
   }
-  return { success: true, id: data.id };
+  return { success: true, id: data.id, public_id: data.public_id };
 };
 
 export default createDonor;
