@@ -32,3 +32,5 @@ const createDonation = async (donationData) => {
   }
   return { success: true, id: data.id };
 };
+
+export default createDonation
