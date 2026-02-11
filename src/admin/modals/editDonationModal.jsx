@@ -95,15 +95,15 @@ const EditDonationModal = ({ donation, onClose }) => {
     const donorFullName =
       `${selectedDonor.first_name} ${selectedDonor.last_name}`.trim();
 
-    const result = await editDonationService(
-      donorFullName,
-      receipt,
-      purpose,
-      selectedDonor.donor_public_id,
-      currency,
+    const result = await editDonationService({
+      id: donation.id,
       amount,
-      donation.id,
-    );
+      currency,
+      donor_id: selectedDonor.donor_public_id,
+      donor_name: donorFullName,
+      donation_purpose: purpose,
+      receipt_number: receipt,
+    });
 
     if (!result.success) {
       setError(result.error);
