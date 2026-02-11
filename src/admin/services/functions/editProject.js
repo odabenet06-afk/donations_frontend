@@ -1,3 +1,6 @@
+import useAdminStore from "../store/adminStore";
+
+
 const editProject = async (
   name,
   description,
@@ -41,3 +44,5 @@ const editProject = async (
 
   return { success: true };
 };
+
+export default editProject

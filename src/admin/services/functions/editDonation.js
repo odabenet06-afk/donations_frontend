@@ -1,6 +1,6 @@
 import useAdminStore from "../store/adminStore";
 
-export const editDonationService = async ({
+const editDonationService = async ({
   id,
   amount,
   currency,
@@ -52,3 +52,4 @@ export const editDonationService = async ({
     return { success: false, error: err.message };
   }
 };
+export default editDonationService
