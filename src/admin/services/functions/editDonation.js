@@ -8,7 +8,6 @@ const editDonationService = async ({
   donor_name,
   donation_purpose = "",
   receipt_number = "",
-  project_id = null,
 }) => {
   const { token } = useAdminStore.getState();
 
@@ -22,7 +21,6 @@ const editDonationService = async ({
       donor_name: (donor_name?.trim() || "Unknown"),
       donation_purpose: donation_purpose || "",
       receipt_number: receipt_number || "",
-      project_id: project_id || null,
     },
   };
 
