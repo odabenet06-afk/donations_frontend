@@ -24,16 +24,20 @@ const createExpense = async (
           category: category || "General",
           description: description || "",
           project_name: project_name || "General",
-          attachment_url: attachment_url || "",
+          attachment_url: attachment_url || null,
         },
       }),
     },
   );
   const data = await response.json();
   if (!response.ok) {
-    console.error("Create Expense Backend Error:", data.error);
-    return { success: false, error: data.error };
+    console.error("Create Expense Backend Error:", data);
+    return {
+      success: false,
+      error: data.error || data.message || "Unknown backend error",
+    };
   }
+
   return { success: true, id: data.id };
 };
 
