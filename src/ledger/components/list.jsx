@@ -40,7 +40,7 @@
     )}
   </div>
 
-  <div className="w-full h-full flex flex-row justify-around mb-10 items-center border-t border-gray-50 py-2 flex-shrink-0 bg-white">
+  <div className="w-full h-full flex flex-row justify-around mb-10 pb-10 items-center border-t border-gray-50 py-2 flex-shrink-0 bg-white">
     <button
       className="text-lg font-semibold disabled:opacity-30 p-2"
       disabled={page === 0}
