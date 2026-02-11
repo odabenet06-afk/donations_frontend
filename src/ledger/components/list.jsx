@@ -37,8 +37,7 @@
       )}
     </div>
 
-    {/* Pagination - Fixed at bottom, won't squeeze */}
-    <div className="w-full flex flex-row mt-auto justify-around py-4 border-t border-gray-50 flex-shrink-0">
+    <div className="w-full flex flex-row justify-around border-t border-gray-50 ">
       <button
         className="text-lg font-semibold disabled:opacity-30 p-2"
         disabled={page === 0}
