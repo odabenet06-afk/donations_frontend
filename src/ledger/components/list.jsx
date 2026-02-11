@@ -1,4 +1,4 @@
-<div className="shadow-xl h-104 p-4 bg-white rounded-4xl flex flex-col overflow-hidden">
+<div className="shadow-xl h-110 p-4 bg-white rounded-4xl flex flex-col overflow-hidden">
 
   <div className="grid lg:mb-3 grid-cols-[1fr_1fr_auto] px-1 border-gray-100 w-full flex-shrink-0">
     <p className="text-xs lg:text-md col-span-1 font-bold text-gray-400">
