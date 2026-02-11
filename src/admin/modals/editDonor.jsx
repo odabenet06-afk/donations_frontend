@@ -72,6 +72,11 @@ const EditDonorModal = ({ onClose, donor }) => {
   ];
 
   const handleUpdate = async () => {
+    if (!donor.donor_public_id && !donor.id) {
+      setError("Donor identifier missing!");
+      return;
+    }
+
     const result = await editDonor(
       firstName,
       lastName,
@@ -80,6 +85,7 @@ const EditDonorModal = ({ onClose, donor }) => {
       phone,
       notes,
       donor.donor_public_id,
+      donor.id,
     );
 
     if (!result.success) {
@@ -91,9 +97,9 @@ const EditDonorModal = ({ onClose, donor }) => {
       ...donor,
       first_name: firstName,
       last_name: lastName,
-      email: email,
-      phone: phone,
-      notes: notes,
+      email,
+      phone,
+      notes,
       privacy_preference: privacyPreference,
     };
 
@@ -104,6 +110,7 @@ const EditDonorModal = ({ onClose, donor }) => {
     setDonors(updatedList);
     setSuccess(true);
     setError(null);
+
     setTimeout(() => {
       setSuccess(false);
       onClose();
