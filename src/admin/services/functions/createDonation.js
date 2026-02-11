@@ -1,6 +1,6 @@
 import useAdminStore from "../store/adminStore";
 
-export const createDonation = async (donationData) => {
+const createDonation = async (donationData) => {
   const { token } = useAdminStore.getState();
 
   const safeDonationData = {
@@ -34,3 +34,5 @@ export const createDonation = async (donationData) => {
   }
   return { success: true, id: data.id };
 };
+
+export default createDonation;
