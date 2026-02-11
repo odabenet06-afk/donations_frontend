@@ -1,5 +1,4 @@
 <div className="shadow-xl h-110 p-4 bg-white rounded-4xl flex flex-col overflow-hidden">
-
   <div className="grid lg:mb-3 grid-cols-[1fr_1fr_auto] px-1 border-gray-100 w-full flex-shrink-0">
     <p className="text-xs lg:text-md col-span-1 font-bold text-gray-400">
       {type === "donations" ? currentLang.donor : currentLang.category}
@@ -41,7 +40,7 @@
     )}
   </div>
 
-  <div className="w-full flex flex-row justify-around border-t border-gray-50 py-2 flex-shrink-0 bg-white">
+  <div className="w-full h-full flex flex-row justify-around mb-10 items-center border-t border-gray-50 py-2 flex-shrink-0 bg-white">
     <button
       className="text-lg font-semibold disabled:opacity-30 p-2"
       disabled={page === 0}
@@ -62,5 +61,4 @@
       {">"}
     </button>
   </div>
-
-</div>
+</div>;
