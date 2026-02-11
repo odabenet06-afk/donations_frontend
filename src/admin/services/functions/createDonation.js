@@ -10,7 +10,6 @@ const createDonation = async (donationData) => {
     donor_name: donationData.donor_name,
     donation_purpose: donationData.donation_purpose || "",
     receipt_number: donationData.receipt_number || "",
-    project_id: donationData.project_id || null,
   };
 
   const response = await fetch(

@@ -14,7 +14,6 @@ const CreateDonationModal = ({ onClose }) => {
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(false);
 
-  const [toggleProject, setToggleProject] = useState(false);
   const [donorSearch, setDonorSearch] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const [selectedDonor, setSelectedDonor] = useState(null);
@@ -97,7 +96,6 @@ const CreateDonationModal = ({ onClose }) => {
       donor_name: `${selectedDonor.first_name} ${selectedDonor.last_name}`,
       donation_purpose: purpose ? purpose : lang.general,
       receipt_number: receipt,
-      project_id: toggleProject ? selectedProjectId : null,
     };
 
     const result = await createDonation(donationData);
