@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import createDonation from "../services/functions/createDonation";
+import { createDonation } from "../services/functions/createDonation";
 
 import fetchDonors from "../services/functions/fetchDonors";
 import useAdminStore from "../services/store/adminStore";
@@ -14,6 +14,7 @@ const CreateDonationModal = ({ onClose }) => {
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(false);
 
+  const [toggleProject, setToggleProject] = useState(false);
   const [donorSearch, setDonorSearch] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const [selectedDonor, setSelectedDonor] = useState(null);
