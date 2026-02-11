@@ -1,12 +1,14 @@
-import useAdminStore from "../store/adminStore";
-
 const createDonation = async (donationData) => {
   const { token } = useAdminStore.getState();
 
   const safeDonationData = {
-    ...donationData,
     amount: Number(donationData.amount),
-    date: new Date(donationData.date || Date.now()).toISOString(),
+    currency: donationData.currency,
+    donor_id: donationData.donor_id,
+    donor_name: donationData.donor_name,
+    donation_purpose: donationData.donation_purpose || "",
+    receipt_number: donationData.receipt_number || "",
+    project_id: donationData.project_id || null,
   };
 
   const response = await fetch(
@@ -18,14 +20,15 @@ const createDonation = async (donationData) => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({ donationData: safeDonationData }),
-    }
+    },
   );
 
   const data = await response.json();
   if (!response.ok) {
-    return { success: false, error: data.error || data.message };
+    return {
+      success: false,
+      error: data.error || data.message || "Validation Error",
+    };
   }
   return { success: true, id: data.id };
 };
-
-export default createDonation;

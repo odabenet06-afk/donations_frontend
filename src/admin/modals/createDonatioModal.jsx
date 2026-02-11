@@ -33,7 +33,7 @@ const CreateDonationModal = ({ onClose }) => {
       create: "Create",
       successMsg: "Donation created successfully.",
       errorMissing: "Missing donor or amount.",
-      general: "General"
+      general: "General",
     },
     sq: {
       title: "Donacion i Ri",
@@ -49,7 +49,7 @@ const CreateDonationModal = ({ onClose }) => {
       create: "Krijo",
       successMsg: "Donacioni u krijua me sukses.",
       errorMissing: "Mungon donatori ose shuma.",
-      general: "Përgjithshme"
+      general: "Përgjithshme",
     },
     mk: {
       title: "Нова донација",
@@ -65,8 +65,8 @@ const CreateDonationModal = ({ onClose }) => {
       create: "Креирај",
       successMsg: "Донацијата е успешно креирана.",
       errorMissing: "Недостасува донатор или износ.",
-      general: "Општо"
-    }
+      general: "Општо",
+    },
   };
 
   const lang = dict[language] || dict.en;
@@ -93,9 +93,10 @@ const CreateDonationModal = ({ onClose }) => {
       amount,
       currency: currency.toUpperCase(),
       donor_id: selectedDonor.donor_public_id,
+      donor_name: `${selectedDonor.first_name} ${selectedDonor.last_name}`,
       donation_purpose: purpose ? purpose : lang.general,
       receipt_number: receipt,
-      donor_name: selectedDonor.first_name + " " + selectedDonor.last_name,
+      project_id: toggleProject ? selectedProjectId : null,
     };
 
     const result = await createDonation(donationData);
@@ -121,7 +122,7 @@ const CreateDonationModal = ({ onClose }) => {
     setError(null);
     setTimeout(() => {
       setSuccess(false);
-      onClose(); 
+      onClose();
     }, 2000);
   };
 
