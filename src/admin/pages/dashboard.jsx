@@ -7,7 +7,6 @@ const Dashboard = () => {
   const { stats, language, loadDashboardData } = useAdminStore();
 
   useEffect(() => {
- 
     const today = new Date();
     const year = today.getFullYear();
     const month = today.getMonth() + 1;
