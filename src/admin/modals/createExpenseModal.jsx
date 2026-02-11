@@ -35,7 +35,14 @@ const CreateExpenseModal = ({ onClose }) => {
       errorMsg: "Please fill in the amount, category",
       successMsg: "Changes saved successfully.",
       general: "General",
-      categories: ["Salary", "Office materials", "Transportation", "Family support", "Project investment", "Other"]
+      categories: [
+        "Salary",
+        "Office materials",
+        "Transportation",
+        "Family support",
+        "Project investment",
+        "Other",
+      ],
     },
     sq: {
       title: "Regjistro Shpenzimin",
@@ -54,7 +61,14 @@ const CreateExpenseModal = ({ onClose }) => {
       errorMsg: "Ju lutemi plotësoni shumën dhe kategorinë",
       successMsg: "Ndryshimet u ruajtën me sukses.",
       general: "Gjenerale",
-      categories: ["Paga", "Materiale zyre", "Transporti", "Përkrahje familjare", "Investim në projekt", "Tjetër"]
+      categories: [
+        "Paga",
+        "Materiale zyre",
+        "Transporti",
+        "Përkrahje familjare",
+        "Investim në projekt",
+        "Tjetër",
+      ],
     },
     mk: {
       title: "Евидентирај трошок",
@@ -73,8 +87,15 @@ const CreateExpenseModal = ({ onClose }) => {
       errorMsg: "Ве молиме пополнете износ и категорија",
       successMsg: "Промените се успешно зачувани.",
       general: "Општо",
-      categories: ["Плата", "Канцелариски материјали", "Транспорт", "Семејна поддршка", "Инвестиција во проект", "Друго"]
-    }
+      categories: [
+        "Плата",
+        "Канцелариски материјали",
+        "Транспорт",
+        "Семејна поддршка",
+        "Инвестиција во проект",
+        "Друго",
+      ],
+    },
   };
 
   const lang = dict[language] || dict.en;
@@ -84,8 +105,7 @@ const CreateExpenseModal = ({ onClose }) => {
       setError(lang.errorMsg);
       return;
     }
-    // Check against the translated word for "Other"
-    const isOther = category === lang.categories[5]; 
+    const isOther = category === lang.categories[5];
     const selectedCategory = isOther ? otherCategory : category;
 
     const result = await createExpense(
@@ -142,7 +162,9 @@ const CreateExpenseModal = ({ onClose }) => {
               }}
               className="w-full text-left border border-gray-200 rounded-xl p-3 bg-white font-medium flex justify-between items-center hover:border-gray-300 transition-colors"
             >
-              <span className={projectName ? "text-slate-900" : "text-gray-400"}>
+              <span
+                className={projectName ? "text-slate-900" : "text-gray-400"}
+              >
                 {projectName || lang.selectProject}
               </span>
               <span className="text-gray-400 text-xs text-[10px]">▼</span>
