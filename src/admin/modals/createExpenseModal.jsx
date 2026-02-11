@@ -108,15 +108,23 @@ const CreateExpenseModal = ({ onClose }) => {
     const isOther = category === lang.categories[5];
     const selectedCategory = isOther ? otherCategory : category;
 
-    const result = await createExpense(
-      amount,
-      currency.toUpperCase(),
-      selectedCategory,
-      description,
-      projectName,
-      attachmentUrl,
-    );
+    const parsedAmount = parseFloat(amount);
+    if (isNaN(parsedAmount) || parsedAmount <= 0) {
+      setError("Amount must be a positive number");
+      return;
+    }
 
+    const finalCurrency = (currency || "MKD").toUpperCase().trim();
+    const finalCategory = selectedCategory?.trim() || "General";
+
+    const result = await createExpense(
+      parsedAmount,
+      finalCurrency,
+      finalCategory,
+      description?.trim() || "",
+      projectName?.trim() || "General",
+      attachmentUrl?.trim() || null,
+    );
     if (!result.success) {
       setError(result.error);
       return;
