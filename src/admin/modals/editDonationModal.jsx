@@ -8,7 +8,9 @@ const EditDonationModal = ({ donation, onClose }) => {
 
   const [amount, setAmount] = useState(donation?.amount || "");
   const [currency, setCurrency] = useState(donation?.currency || "MKD");
-  const [purpose, setPurpose] = useState(donation?.donation_purpose || "General");
+  const [purpose, setPurpose] = useState(
+    donation?.donation_purpose || "General",
+  );
   const [receipt, setReceipt] = useState(donation?.receipt_number || "");
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(false);
@@ -90,14 +92,15 @@ const EditDonationModal = ({ donation, onClose }) => {
       return;
     }
 
-    const donorFullName = `${selectedDonor.first_name} ${selectedDonor.last_name}`.trim();
+    const donorFullName =
+      `${selectedDonor.first_name} ${selectedDonor.last_name}`.trim();
 
     const result = await editDonationService(
       donorFullName,
       receipt,
       purpose,
       selectedDonor.donor_public_id,
-      currency.toUpperCase(),
+      currency,
       amount,
       donation.id,
     );
@@ -111,7 +114,7 @@ const EditDonationModal = ({ donation, onClose }) => {
       d.id === donation.id
         ? {
             ...d,
-            amount,
+            amount: Number(amount),
             currency: currency.toUpperCase(),
             donor_name: donorFullName,
             donor_id: selectedDonor.donor_public_id,
@@ -292,7 +295,7 @@ const EditDonationModal = ({ donation, onClose }) => {
               {error}
             </p>
           )}
-          
+
           {success && (
             <p className="text-green-500 text-sm font-bold text-center bg-green-50 py-2 rounded-lg">
               {lang.successMsg}
