@@ -5,7 +5,7 @@ import Filter from "./filter.jsx";
 
 import formatEUDate from "../../admin/services/functions/formatDate.js";
 
-const list = ({ data, onFilter, lang = "en" }) => {
+const List = ({ data, onFilter, lang = "en" }) => {
   const [toggleFilter, setToggleFilter] = useState(true);
   const [type, setType] = useState("donations");
   const filteredData = data?.[type] || [];
@@ -49,7 +49,7 @@ const list = ({ data, onFilter, lang = "en" }) => {
         onClick={setType}
         filter={toggleFilter}
         toggle={setToggleFilter}
-        lang={lang} 
+        lang={lang}
       />
       {toggleFilter ? (
         <Filter type={type} onFilter={onFilter} oldData={data} lang={lang} />
@@ -137,4 +137,4 @@ const list = ({ data, onFilter, lang = "en" }) => {
   );
 };
 
-export default list;
+export default List;
