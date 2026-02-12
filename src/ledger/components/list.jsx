@@ -49,13 +49,13 @@ const list = ({ data, onFilter, lang = "en" }) => {
         onClick={setType}
         filter={toggleFilter}
         toggle={setToggleFilter}
-        lang={lang} // Passing lang to Switch
+        lang={lang} 
       />
       {toggleFilter ? (
         <Filter type={type} onFilter={onFilter} oldData={data} lang={lang} />
       ) : null}
 
-      <div className="shadow-xl h-104 p-4 bg-white rounded-4xl">
+      <div className="shadow-xl min-h-[420px] p-4 bg-white rounded-4xl">
         <div className="flex flex-col pt-2 w-full h-full">
           <div className="grid lg:mb-3 grid-cols-[1fr_1fr_auto] px-1 border-gray-100 w-full">
             <p className="text-xs lg:text-md col-span-1 font-bold text-gray-400">
