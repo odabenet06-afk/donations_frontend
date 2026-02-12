@@ -71,19 +71,16 @@ const Home = ({ reusable, footer, lang: propLang, isDashboard }) => {
 
   return (
     <div className={`bg-slate-50 ${isDashboard ? "min-h-0" : "min-h-screen"}`}>
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 p-4 md:p-6">
+      <div className="grid grid-cols-1 lg:gap-y-20 md:grid-cols-8 p-6 gap-6">
         {data.map((item, index) => (
-          <div
-            key={index}
-            className={`col-span-1 ${Object.keys(item).length === 0 ? "hidden md:block" : "md:col-span-4 lg:col-span-2"}`}
-          >
-            <Card data={item} date={date} lang={lang} />
-          </div>
+          <Card key={index} data={data[index]} date={date} lang={lang} />
         ))}
-
-        <div className="col-span-1 md:col-span-8 lg:col-span-6 lg:col-start-2">
-          <List data={filteredData} onFilter={setFilteredData} lang={lang} />
-        </div>
+        <List
+          data={filteredData}
+          type={"donations"}
+          onFilter={setFilteredData}
+          lang={lang}
+        />
       </div>
       {footer && <Footer lang={lang} />}
     </div>
