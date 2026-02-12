@@ -28,7 +28,7 @@ const Dashboard = () => {
   ];
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-8 gap-6 p-4 md:p-8 bg-slate-50 min-h-full w-full box-border">
+    <div className="flex flex-col gap-6 p-4 md:p-8 bg-slate-50 min-h-full w-full box-border">
       <Home footer={false} lang={language} isDashboard={true} />
 
       <div className="grid grid-cols-12 gap-6 w-full">
