@@ -54,7 +54,7 @@ const ExpenseRow = ({ expense, onDelete }) => {
       {/* DELETE ACTION */}
       <div className="w-20 shrink-0 flex justify-center px-2">
         {role === "staff" ? (
-          <p className="text-[10px] text-red-400 font-bold uppercase">{lang.notPermitted}</p>
+          <></>
         ) : (
           <button
             onClick={() => onDelete(expense.id)}

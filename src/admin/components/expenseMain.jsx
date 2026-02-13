@@ -4,12 +4,12 @@ import fetchExpenses from "../services/functions/fetchExpenses";
 import ExpenseFilter from "./expenseFilter";
 import ExpenseRow from "./expenseRow";
 import ConfirmVoidModal from "../modals/confirmVoidModal";
-import CreateExpenseModal from "../modals/createExpenseModal"; 
+import CreateExpenseModal from "../modals/createExpenseModal";
 
 const Expenses = ({ expenses }) => {
   const { setExpenses, language } = useAdminStore();
   const today = new Date();
-
+  console.log(expenses);
   const [deleteModal, setDeleteModal] = useState(false);
   const [createModal, setCreateModal] = useState(false);
   const [selectedExpenseId, setSelectedExpenseId] = useState(null);
@@ -36,8 +36,29 @@ const Expenses = ({ expenses }) => {
       next: "Next",
       page: "Page",
       of: "of",
-      cols: ["Project", "Amount", "Category", "Description", "Admin", "Date", "Action"],
-      months: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+      cols: [
+        "Project",
+        "Amount",
+        "Category",
+        "Description",
+        "Admin",
+        "Date",
+        "Action",
+      ],
+      months: [
+        "January",
+        "February",
+        "March",
+        "April",
+        "May",
+        "June",
+        "July",
+        "August",
+        "September",
+        "October",
+        "November",
+        "December",
+      ],
     },
     sq: {
       title: "Ndjekja e Shpenzimeve",
@@ -49,8 +70,29 @@ const Expenses = ({ expenses }) => {
       next: "Tjetra",
       page: "Faqja",
       of: "nga",
-      cols: ["Projekti", "Shuma", "Kategoria", "Përshkrimi", "Admin", "Data", "Veprimi"],
-      months: ["Janar", "Shkurt", "Mars", "Prill", "Maj", "Qershor", "Korrik", "Gusht", "Shtator", "Tetor", "Nëntor", "Dhjetor"]
+      cols: [
+        "Projekti",
+        "Shuma",
+        "Kategoria",
+        "Përshkrimi",
+        "Admin",
+        "Data",
+        "Veprimi",
+      ],
+      months: [
+        "Janar",
+        "Shkurt",
+        "Mars",
+        "Prill",
+        "Maj",
+        "Qershor",
+        "Korrik",
+        "Gusht",
+        "Shtator",
+        "Tetor",
+        "Nëntor",
+        "Dhjetor",
+      ],
     },
     mk: {
       title: "Следење на трошоци",
@@ -62,16 +104,36 @@ const Expenses = ({ expenses }) => {
       next: "Следна",
       page: "Страница",
       of: "од",
-      cols: ["Проект", "Износ", "Категорија", "Опис", "Админ", "Датум", "Акција"],
-      months: ["Јануари", "Февруари", "Март", "Април", "Мај", "Јуни", "Јули", "Август", "Септември", "Октомври", "Ноември", "Декември"]
-    }
+      cols: [
+        "Проект",
+        "Износ",
+        "Категорија",
+        "Опис",
+        "Админ",
+        "Датум",
+        "Акција",
+      ],
+      months: [
+        "Јануари",
+        "Февруари",
+        "Март",
+        "Април",
+        "Мај",
+        "Јуни",
+        "Јули",
+        "Август",
+        "Септември",
+        "Октомври",
+        "Ноември",
+        "Декември",
+      ],
+    },
   };
 
   const lang = dict[language] || dict.en;
 
   const handleVoidExpense = async (id) => {
     setDeleteModal(false);
-    // Add logic here to remove from store if needed
   };
 
   const openDeleteModal = (id) => {
@@ -132,13 +194,19 @@ const Expenses = ({ expenses }) => {
       </div>
 
       <ExpenseFilter
-        year={year} setYear={setYear}
-        month={month} setMonth={setMonth}
-        category={category} setCategory={setCategory}
+        year={year}
+        setYear={setYear}
+        month={month}
+        setMonth={setMonth}
+        category={category}
+        setCategory={setCategory}
         months={months}
-        toggleYear={toggleYear} setToggleYear={setToggleYear}
-        toggleMonth={toggleMonth} setToggleMonth={setToggleMonth}
-        toggleCat={toggleCat} setToggleCat={setToggleCat}
+        toggleYear={toggleYear}
+        setToggleYear={setToggleYear}
+        toggleMonth={toggleMonth}
+        setToggleMonth={setToggleMonth}
+        toggleCat={toggleCat}
+        setToggleCat={setToggleCat}
         handleSearch={handleSearch}
       />
 
@@ -151,8 +219,12 @@ const Expenses = ({ expenses }) => {
               <div className="w-44 shrink-0 px-2">{lang.cols[2]}</div>
               <div className="flex-1 px-4">{lang.cols[3]}</div>
               <div className="w-32 shrink-0 px-2">{lang.cols[4]}</div>
-              <div className="w-40 shrink-0 text-right px-2">{lang.cols[5]}</div>
-              <div className="w-20 shrink-0 text-center px-2">{lang.cols[6]}</div>
+              <div className="w-40 shrink-0 text-right px-2">
+                {lang.cols[5]}
+              </div>
+              <div className="w-20 shrink-0 text-center px-2">
+                {lang.cols[6]}
+              </div>
             </div>
 
             {!currentExpenses.length ? (
@@ -182,7 +254,8 @@ const Expenses = ({ expenses }) => {
               {lang.prev}
             </button>
             <span className="text-sm text-gray-500 font-bold">
-              {lang.page} <span className="text-blue-600">{currentPage}</span> {lang.of} {totalPages}
+              {lang.page} <span className="text-blue-600">{currentPage}</span>{" "}
+              {lang.of} {totalPages}
             </span>
             <button
               disabled={currentPage === totalPages}
@@ -200,7 +273,6 @@ const Expenses = ({ expenses }) => {
           type="expense"
           id={selectedExpenseId}
           onCancel={() => setDeleteModal(false)}
-          voidExpense={handleVoidExpense}
         />
       )}
 

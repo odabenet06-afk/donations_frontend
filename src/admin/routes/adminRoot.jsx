@@ -30,8 +30,6 @@ const AdminRoot = () => {
     loadDashboardData,
   } = useAdminStore();
 
-  console.log(isAuthorised);
-
   const {
     data: otherData,
     loading,
@@ -105,15 +103,15 @@ const AdminRoot = () => {
     <div className="bg-slate-50 flex min-h-screen overflow-x-hidden">
       {toggleSidebar && (
         <div
-          className="fixed inset-0 bg-black/20 z-40 lg:hidden"
+          className="fixed inset-0 bg-black/20 z-40 xl:hidden"
           onClick={() => setToggleSideBar(false)}
         />
       )}
 
       <aside
         className={`fixed inset-y-0 left-0 z-50 w-64 bg-white shadow-xl transition-transform duration-300 ease-in-out 
-          ${toggleSidebar ? "translate-x-0" : "-translate-x-64"} 
-          lg:translate-x-0 lg:static lg:inset-0`}
+  ${toggleSidebar ? "translate-x-0" : "-translate-x-64"} 
+  xl:translate-x-0 xl:static xl:inset-0`}
       >
         <div className="p-6 flex justify-between items-center ">
           <img className="w-12 h-12" src={openHands} alt="Logo" />
@@ -151,7 +149,7 @@ const AdminRoot = () => {
           <div className="flex items-center gap-4">
             <button
               onClick={() => setToggleSideBar(true)}
-              className="p-2 text-2xl lg:hidden"
+              className="p-2 text-2xl xl:hidden"
             >
               ☰
             </button>

@@ -56,9 +56,7 @@ const DonationRow = ({ donation, onDelete, onEdit }) => {
       {/* ACTIONS */}
       <div className="w-24 shrink-0 flex justify-center gap-2 px-2">
         {role === "staff" ? (
-          <p className="text-[10px] text-gray-300 font-bold uppercase">
-            {lang.locked}
-          </p>
+          <></>
         ) : (
           <>
             <button

@@ -63,29 +63,35 @@ const DonorRow = ({ donor, onEdit, onDelete }) => {
 
       {/* ACTIONS */}
       <div className="w-24 shrink-0 flex justify-center gap-2 px-2">
-        <button
-          onClick={() => onEdit(donor)}
-          className="hover:scale-110 transition-transform active:scale-90 p-2 rounded-full"
-          title={lang.editTitle}
-        >
-          <img
-            className="w-5 h-5 opacity-70 group-hover:opacity-100"
-            src={editIcon}
-            alt="edit"
-          />
-        </button>
+        {role === "admin" ? (
+          <>
+            <button
+              onClick={() => onEdit(donor)}
+              className="hover:scale-110 transition-transform active:scale-90 p-2 rounded-full"
+              title={lang.editTitle}
+            >
+              <img
+                className="w-5 h-5 opacity-70 group-hover:opacity-100"
+                src={editIcon}
+                alt="edit"
+              />
+            </button>
 
-        <button
-          onClick={() => onDelete(donor.donor_public_id)}
-          className="hover:scale-110 transition-transform active:scale-90 p-2 rounded-full"
-          title={lang.deleteTitle}
-        >
-          <img
-            className="w-5 h-5 opacity-70 group-hover:opacity-100"
-            src={xIcon}
-            alt="delete"
-          />
-        </button>
+            <button
+              onClick={() => onDelete(donor.donor_public_id)}
+              className="hover:scale-110 transition-transform active:scale-90 p-2 rounded-full"
+              title={lang.deleteTitle}
+            >
+              <img
+                className="w-5 h-5 opacity-70 group-hover:opacity-100"
+                src={xIcon}
+                alt="delete"
+              />
+            </button>
+          </>
+        ) : (
+          <></>
+        )}
       </div>
     </div>
   );

@@ -1,13 +1,12 @@
 import useAdminStore from "../store/adminStore";
 
-
 const editProject = async (
   name,
   description,
   status,
   startDate,
   endDate,
-  id
+  id,
 ) => {
   const { token } = useAdminStore.getState();
 
@@ -16,7 +15,7 @@ const editProject = async (
     const d = new Date(val);
     return isNaN(d.getTime()) ? null : d.toISOString().slice(0, 10);
   };
-
+  console.log(formatDate(startDate), formatDate(endDate));
   const response = await fetch(
     `https://${import.meta.env.VITE_API_URL}/admin/edit-project`,
     {
@@ -29,11 +28,11 @@ const editProject = async (
         name,
         description: description || "",
         status,
-        startDate: formatDate(startDate),
-        endDate: formatDate(endDate),
+        start_date: formatDate(startDate),
+        end_date: formatDate(endDate),
         id: Number(id),
       }),
-    }
+    },
   );
 
   const data = await response.json();
@@ -45,4 +44,4 @@ const editProject = async (
   return { success: true };
 };
 
-export default editProject
+export default editProject;

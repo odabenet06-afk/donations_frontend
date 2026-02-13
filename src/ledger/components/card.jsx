@@ -3,12 +3,27 @@ import arrowDown from "../../assets/icons/arrowDown.png";
 import upward from "../../assets/icons/upward.png";
 import wallet from "../../assets/icons/wallet.png";
 
-const card = ({ data, date, lang = "en" }) => {
+const card = ({ data, date, lang = "en", isDashboard }) => {
   // Dictionary to match the property names for styling/icons
   const dict = {
-    en: { total: "TOTAL", donations: "Donations", expenses: "Expenses", reserve: "Reserve" },
-    sq: { total: "TOTALI", donations: "Donacionet", expenses: "Shpenzimet", reserve: "Rezerva" },
-    mk: { total: "ВКУПНО", donations: "Донации", expenses: "Трошоци", reserve: "Резерва" }
+    en: {
+      total: "TOTAL",
+      donations: "Donations",
+      expenses: "Expenses",
+      reserve: "Reserve",
+    },
+    sq: {
+      total: "TOTALI",
+      donations: "Donacionet",
+      expenses: "Shpenzimet",
+      reserve: "Rezerva",
+    },
+    mk: {
+      total: "ВКУПНО",
+      donations: "Донации",
+      expenses: "Трошоци",
+      reserve: "Резерва",
+    },
   };
 
   const currentLang = dict[lang] || dict.en;
@@ -22,17 +37,23 @@ const card = ({ data, date, lang = "en" }) => {
   const isExpense = data.property === currentLang.expenses;
 
   return (
-    <div className={`shadow-lg h-60 p-8 col-span-1 lg:col-span-2 ${
-      isDonation ? "bg-green-50" : isExpense ? "bg-red-50" : "bg-blue-50"
-    } rounded-4xl`}>
+    <div
+      className={`shadow-lg h-60 p-8 col-span-1 lg:col-span-2 ${
+        isDonation ? "bg-green-50" : isExpense ? "bg-red-50" : "bg-blue-50"
+      } rounded-4xl`}
+    >
       <div className="flex flex-col gap-5 w-full h-full">
-        <div className={`${
-          isDonation ? "bg-green-200" : isExpense ? "bg-red-200" : "bg-blue-200"
-        } rounded-xl p-2 w-10 h-10`}>
-          <img 
-            src={
-              isDonation ? upward : isExpense ? arrowDown : wallet
-            }
+        <div
+          className={`${
+            isDonation
+              ? "bg-green-200"
+              : isExpense
+                ? "bg-red-200"
+                : "bg-blue-200"
+          } rounded-xl p-2 w-10 h-10`}
+        >
+          <img
+            src={isDonation ? upward : isExpense ? arrowDown : wallet}
             alt="icon"
           />
         </div>
@@ -40,7 +61,9 @@ const card = ({ data, date, lang = "en" }) => {
           {currentLang.total} {data.property}
         </p>
         <div className="flex flex-row items-end">
-          <p className="font-sans text-4xl">{data.amount.toLocaleString()}</p>
+          <p className="font-sans text-4xl lg:text-2xl lg:font-bold xl:text-4xl xl:font-medium">
+            {data.amount.toLocaleString()}
+          </p>
           <p className="font-sans text-xl ml-1">MKD</p>
         </div>
         <div className="flex w-full flex-row justify-between">

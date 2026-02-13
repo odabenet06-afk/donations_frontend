@@ -71,9 +71,9 @@ const Home = ({ reusable, footer, lang: propLang, isDashboard }) => {
 
   return (
     <div className={`bg-slate-50 ${isDashboard ? "min-h-0" : "min-h-screen"}`}>
-      <div className="grid grid-cols-1 md:gap-y-20 md:grid-cols-8 p-6 gap-6">
+      <div className={`grid grid-cols-1 lg:gap-y-20 lg:grid-cols-8 p-6 gap-6`}>
         {data.map((item, index) => (
-          <Card key={index} data={data[index]} date={date} lang={lang} />
+          <Card key={index} data={data[index]} date={date} isDashboard={isDashboard} lang={lang} />
         ))}
         <List
           data={filteredData}
