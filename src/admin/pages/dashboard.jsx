@@ -4,7 +4,7 @@ import useAdminStore from "../services/store/adminStore";
 import Home from "../../ledger/pages/home";
 
 const Dashboard = () => {
-  const { stats, language, loadDashboardData } = useAdminStore();
+  const { stats, language, loadDashboardData} = useAdminStore();
 
   useEffect(() => {
     const today = new Date();
@@ -15,6 +15,7 @@ const Dashboard = () => {
   }, []);
 
   if (!stats) return <p>Loading...</p>;
+
 
   const donations = stats.raised;
   const expenses = stats.spent;

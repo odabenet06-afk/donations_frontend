@@ -6,6 +6,7 @@ import fetchProjects from "../functions/fetchProjects";
 import fetchDonors from "../functions/fetchDonors";
 import fetchExpenses from "../functions/fetchExpenses";
 import fetchUsers from "../functions/fetchUsers";
+import fetchCategories from "../functions/fetchCategories";
 
 const useAdminStore = create((set) => ({
   isAuthorised: false,
@@ -20,7 +21,8 @@ const useAdminStore = create((set) => ({
   donors: null,
   expenses: null,
   users: null,
-  language: "sq",
+  categories: [],
+  language: localStorage.getItem("language") || "sq",
 
   loadDashboardData: async (year, month, search = "") => {
     set({ loading: true });
@@ -29,7 +31,7 @@ const useAdminStore = create((set) => ({
     const mm = String(today.getMonth() + 1).padStart(2, "0");
     const dd = String(today.getDate()).padStart(2, "0");
 
-    const [donRes, statRes, logRes, prjcRes, dnrRes, expRes, usrRes] =
+    const [donRes, statRes, logRes, prjcRes, dnrRes, expRes, usrRes, catRes] =
       await Promise.all([
         fetchDonations(year, month, search),
         fetchStats(),
@@ -38,6 +40,7 @@ const useAdminStore = create((set) => ({
         fetchDonors(year, month, search),
         fetchExpenses(year, month),
         fetchUsers(),
+        fetchCategories(),
       ]);
     set({
       donations: donRes.data,
@@ -48,6 +51,7 @@ const useAdminStore = create((set) => ({
       donors: dnrRes.data,
       expenses: expRes.data,
       users: usrRes.data,
+      categories: catRes.data,
     });
   },
 
@@ -59,7 +63,11 @@ const useAdminStore = create((set) => ({
   setDonors: (d) => set({ donors: d }),
   setExpenses: (e) => set({ expenses: e }),
   setUsers: (u) => set({ users: u }),
-  setLanguage: (l) => set({ language: l }),
+  setLanguage: (lang) => {
+    localStorage.setItem("language", lang);
+    set({ language: lang });
+  },
+  setCategories: (c) => set({ categories: c }),
   role: null,
   setRole: (r) => set({ role: r }),
   username: null,

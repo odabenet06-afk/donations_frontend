@@ -1,6 +1,6 @@
 import React from "react";
 import search from "../../assets/icons/search.png";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import arrow from "../../assets/icons/arrow.png";
 import fetchData from "../services/functions/fetchData";
 import useDataStore from "../services/store/dataStore";
@@ -15,6 +15,21 @@ const filter = ({ onFilter, type, oldData, lang = "en" }) => {
   const [toggleYear, setToggleYear] = useState(false);
   const [toggleMonth, setToggleMonth] = useState(false);
   const { setDataStore } = useDataStore();
+  const filterRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (filterRef.current && !filterRef.current.contains(event.target)) {
+        setToggleYear(false);
+        setToggleMonth(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   const dict = {
     en: {
@@ -22,22 +37,61 @@ const filter = ({ onFilter, type, oldData, lang = "en" }) => {
       month: "Month",
       search: "Search",
       all: "All",
-      months: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+      months: [
+        "January",
+        "February",
+        "March",
+        "April",
+        "May",
+        "June",
+        "July",
+        "August",
+        "September",
+        "October",
+        "November",
+        "December",
+      ],
     },
     sq: {
       year: "Viti",
       month: "Muaji",
       search: "Kërko",
       all: "Të gjithë",
-      months: ["Janar", "Shkurt", "Mars", "Prill", "Maj", "Qershor", "Korrik", "Gusht", "Shtator", "Tetor", "Nëntor", "Dhjetor"]
+      months: [
+        "Janar",
+        "Shkurt",
+        "Mars",
+        "Prill",
+        "Maj",
+        "Qershor",
+        "Korrik",
+        "Gusht",
+        "Shtator",
+        "Tetor",
+        "Nëntor",
+        "Dhjetor",
+      ],
     },
     mk: {
       year: "Година",
       month: "Месец",
       search: "Пребарај",
       all: "Сите",
-      months: ["Јануари", "Февруари", "Март", "Април", "Мај", "Јуни", "Јули", "Август", "Септември", "Октомври", "Ноември", "Декември"]
-    }
+      months: [
+        "Јануари",
+        "Февруари",
+        "Март",
+        "Април",
+        "Мај",
+        "Јуни",
+        "Јули",
+        "Август",
+        "Септември",
+        "Октомври",
+        "Ноември",
+        "Декември",
+      ],
+    },
   };
 
   const currentLang = dict[lang] || dict.en;
@@ -49,7 +103,7 @@ const filter = ({ onFilter, type, oldData, lang = "en" }) => {
 
   const handleOtherSearch = async () => {
     const newData = await fetchData(year, month);
-    onFilter(newData.data); // Fixed the typo here
+    onFilter(newData.data);
   };
 
   return (
@@ -62,7 +116,10 @@ const filter = ({ onFilter, type, oldData, lang = "en" }) => {
         className={`grid ${type === "expenses" ? "grid-cols-[1fr_auto_1fr] lg:grid-cols-[1fr_auto_1fr]" : "grid-cols-2"} lg:grid-cols-3`}
       >
         {/* Year Selector */}
-        <div className="h-20 flex flex-col bg-white px-2 col-span-1 relative">
+        <div
+          ref={filterRef}
+          className="h-20 flex flex-col bg-white px-2 col-span-1 relative"
+        >
           <p className="text-xs lg:text-md ml-1 mb-1 font-bold text-gray-400 uppercase">
             {currentLang.year}
           </p>
@@ -108,8 +165,13 @@ const filter = ({ onFilter, type, oldData, lang = "en" }) => {
         )}
 
         {/* Month Selector */}
-        <div className="h-20 flex flex-col bg-white px-2 col-span-1 relative">
-          <p className={`text-xs lg:text-md ml-1 mb-1 font-bold text-gray-400 uppercase ${type === "expenses" ? "text-right" : ""}`}>
+        <div
+          ref={filterRef}
+          className="h-20 flex flex-col bg-white px-2 col-span-1 relative"
+        >
+          <p
+            className={`text-xs lg:text-md ml-1 mb-1 font-bold text-gray-400 uppercase ${type === "expenses" ? "text-right" : ""}`}
+          >
             {currentLang.month}
           </p>
           <div className="relative">
@@ -128,7 +190,10 @@ const filter = ({ onFilter, type, oldData, lang = "en" }) => {
                 <div className="flex flex-col">
                   <button
                     className={`text-left px-3 py-1 text-sm ${!month ? "bg-gray-100 rounded-xl" : ""} hover:bg-gray-50 m-1`}
-                    onClick={() => { setMonth(null); setToggleMonth(false); }}
+                    onClick={() => {
+                      setMonth(null);
+                      setToggleMonth(false);
+                    }}
                   >
                     {currentLang.all}
                   </button>
@@ -153,7 +218,9 @@ const filter = ({ onFilter, type, oldData, lang = "en" }) => {
         {/* Search Input (Donations Only) */}
         {type === "donations" && (
           <div className="lg:col-span-1 col-span-2 flex flex-col">
-            <p className="hidden lg:block text-xs lg:text-md ml-1 mb-1 font-bold text-transparent uppercase">.</p>
+            <p className="hidden lg:block text-xs lg:text-md ml-1 mb-1 font-bold text-transparent uppercase">
+              .
+            </p>
             <div className="h-10 lg:h-14 bg-white flex flex-row justify-between px-2 ">
               <input
                 type="text"

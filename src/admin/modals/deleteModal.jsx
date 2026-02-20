@@ -5,35 +5,46 @@ import useAdminStore from "../services/store/adminStore";
 const ConfirmDeleteModal = ({ onCancel, id, username, type }) => {
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(false);
-  const { donors, setDonors, users, setUsers, projects, setProjects, language } =
-    useAdminStore();
-
+  const {
+    donors,
+    setDonors,
+    users,
+    setUsers,
+    projects,
+    setProjects,
+    categories,
+    setCategories,
+    language,
+  } = useAdminStore();
 
   const dict = {
     en: {
       title: "Are you sure?",
-      message: "Are you sure you want to delete this item? This action cannot be undone.",
+      message:
+        "Are you sure you want to delete this item? This action cannot be undone.",
       cancel: "Cancel",
       delete: "Delete",
       successMsg: "Item deleted successfully.",
-      errorMsg: "Something went wrong"
+      errorMsg: "Something went wrong",
     },
     sq: {
       title: "A jeni i sigurt?",
-      message: "A jeni i sigurt që dëshironi ta fshini këtë artikull? Ky veprim nuk mund të kthehet mbrapa.",
+      message:
+        "A jeni i sigurt që dëshironi ta fshini këtë artikull? Ky veprim nuk mund të kthehet mbrapa.",
       cancel: "Anulo",
       delete: "Fshij",
       successMsg: "Artikulli u fshi me sukses.",
-      errorMsg: "Diçka shkoi keq"
+      errorMsg: "Diçka shkoi keq",
     },
     mk: {
       title: "Дали сте сигурни?",
-      message: "Дали сте сигурни дека сакате да го избришете овој елемент? Оваа акција е неповратна.",
+      message:
+        "Дали сте сигурни дека сакате да го избришете овој елемент? Оваа акција е неповратна.",
       cancel: "Откажи",
       delete: "Избриши",
       successMsg: "Елементот е успешно избришан.",
-      errorMsg: "Нешто тргна наопаку"
-    }
+      errorMsg: "Нешто тргна наопаку",
+    },
   };
 
   const lang = dict[language] || dict.en;
@@ -45,7 +56,9 @@ const ConfirmDeleteModal = ({ onCancel, id, username, type }) => {
       return;
     }
 
-    if (type === "donor") {
+    if (type === "category") {
+      setCategories(categories.filter((c) => c.id !== id));
+    } else if (type === "donor") {
       setDonors(donors.filter((d) => d.donor_public_id !== id));
     } else if (type === "user") {
       setUsers(users.filter((u) => u.username !== username));
@@ -55,15 +68,15 @@ const ConfirmDeleteModal = ({ onCancel, id, username, type }) => {
 
     setSuccess(true);
     setError(null);
-    
+
     setTimeout(() => {
       setSuccess(false);
-      onCancel(); 
+      onCancel();
     }, 2000);
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-[rgba(0,0,0,0.4)] backdrop-blur-sm p-4">
+    <div className="fixed inset-0 z-[60] flex items-center justify-center bg-[rgba(0,0,0,0.6)] backdrop-blur-sm p-4">
       <div className="bg-white rounded-3xl shadow-2xl p-8 w-full max-w-sm text-center border border-gray-100">
         <h2 className="text-2xl font-black mb-3 text-gray-800">{lang.title}</h2>
         <p className="text-gray-500 text-sm leading-relaxed mb-8">
@@ -86,11 +99,10 @@ const ConfirmDeleteModal = ({ onCancel, id, username, type }) => {
         </div>
 
         {error && (
-          <p className="text-red-500 mt-4 text-[11px] font-bold uppercase tracking-tight">
+          <p className="text-red-500 mt-4 text-[11px] font-bold uppercase">
             {error}
           </p>
         )}
-        
         {success && (
           <div className="mt-4 bg-green-50 p-2 rounded-xl border border-green-100">
             <p className="text-green-600 text-[11px] font-black uppercase">

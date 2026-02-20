@@ -42,7 +42,20 @@ const Donations = ({ donations }) => {
       date: "Date",
       action: "Action",
       noDonations: "No donations found for this selection.",
-      monthNames: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+      monthNames: [
+        "January",
+        "February",
+        "March",
+        "April",
+        "May",
+        "June",
+        "July",
+        "August",
+        "September",
+        "October",
+        "November",
+        "December",
+      ],
     },
     sq: {
       metrics: "Metrikat e Donacioneve",
@@ -58,7 +71,20 @@ const Donations = ({ donations }) => {
       date: "Data",
       action: "Veprim",
       noDonations: "Nuk u gjet asnjë donacion për këtë përzgjedhje.",
-      monthNames: ["Janar", "Shkurt", "Mars", "Prill", "Maj", "Qershor", "Korrik", "Gusht", "Shtator", "Tetor", "Nëntor", "Dhjetor"]
+      monthNames: [
+        "Janar",
+        "Shkurt",
+        "Mars",
+        "Prill",
+        "Maj",
+        "Qershor",
+        "Korrik",
+        "Gusht",
+        "Shtator",
+        "Tetor",
+        "Nëntor",
+        "Dhjetor",
+      ],
     },
     mk: {
       metrics: "Метрики за донации",
@@ -74,15 +100,28 @@ const Donations = ({ donations }) => {
       date: "Датум",
       action: "Акција",
       noDonations: "Не се пронајдени донации за овој избор.",
-      monthNames: ["Јануари", "Февруари", "Март", "Април", "Мај", "Јуни", "Јули", "Август", "Септември", "Октомври", "Ноември", "Декември"]
-    }
+      monthNames: [
+        "Јануари",
+        "Февруари",
+        "Март",
+        "Април",
+        "Мај",
+        "Јуни",
+        "Јули",
+        "Август",
+        "Септември",
+        "Октомври",
+        "Ноември",
+        "Декември",
+      ],
+    },
   };
 
   const lang = dict[language] || dict.en;
 
   const months = lang.monthNames.map((name, index) => ({
     label: name,
-    value: index + 1
+    value: index + 1,
   }));
 
   const openVoidModal = (id) => {
@@ -121,15 +160,6 @@ const Donations = ({ donations }) => {
           </p>
         </div>
 
-        <div className="flex-1 flex justify-center">
-          <button
-            onClick={() => setCreateModal(true)}
-            className="bg-white text-slate-600 font-semibold px-8 py-2.5 rounded-full shadow-sm hover:bg-gray-50 transition border border-gray-100 active:scale-95 whitespace-nowrap"
-          >
-            {lang.newDonation}
-          </button>
-        </div>
-
         <div className="text-center md:text-right">
           <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest">
             {lang.totalDonations}
@@ -137,6 +167,15 @@ const Donations = ({ donations }) => {
           <p className="text-2xl font-black">
             {totalSum} <span className="text-sm text-gray-400">MKD</span>
           </p>
+        </div>
+
+        <div className="flex justify-center">
+          <button
+            onClick={() => setCreateModal(true)}
+            className="bg-white text-slate-600 font-semibold px-8 py-2.5 rounded-full shadow-sm hover:bg-gray-50 transition border border-gray-100 active:scale-95 whitespace-nowrap"
+          >
+            {lang.newDonation}
+          </button>
         </div>
       </div>
 
@@ -167,7 +206,9 @@ const Donations = ({ donations }) => {
               <div className="w-32 shrink-0 px-2">{lang.receipt}</div>
               <div className="flex-1 px-4">{lang.admin}</div>
               <div className="w-40 shrink-0 text-right px-2">{lang.date}</div>
-              <div className="w-20 shrink-0 text-center px-2">{lang.action}</div>
+              <div className="w-20 shrink-0 text-center px-2">
+                {lang.action}
+              </div>
             </div>
 
             {!currentDonations.length ? (

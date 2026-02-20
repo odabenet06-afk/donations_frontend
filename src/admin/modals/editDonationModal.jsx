@@ -267,12 +267,9 @@ const EditDonationModal = ({ donation, onClose }) => {
               <label className="text-sm font-semibold text-gray-500 mb-1 block">
                 {lang.currency}
               </label>
-              <input
-                type="text"
-                value={currency}
-                onChange={(e) => setCurrency(e.target.value.toUpperCase())}
-                className="border border-gray-200 rounded-xl p-3 w-full font-medium focus:ring-2 focus:ring-blue-500 outline-none"
-              />
+              <div className="border border-gray-300 rounded-xl p-3 w-full font-medium">
+                {currency}
+              </div>
             </div>
           </div>
 

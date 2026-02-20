@@ -7,13 +7,17 @@ import ConfirmVoidModal from "../modals/confirmVoidModal";
 import CreateExpenseModal from "../modals/createExpenseModal";
 
 const Expenses = ({ expenses }) => {
-  const { setExpenses, language } = useAdminStore();
+  const {
+    setExpenses,
+    language,
+    categories: storeCategories,
+  } = useAdminStore();
   const today = new Date();
-  console.log(expenses);
   const [deleteModal, setDeleteModal] = useState(false);
   const [createModal, setCreateModal] = useState(false);
   const [selectedExpenseId, setSelectedExpenseId] = useState(null);
 
+  const officialCategoryNames = storeCategories?.map((c) => c.en) || [];
   const [year, setYear] = useState(today.getFullYear());
   const [month, setMonth] = useState(today.getMonth() + 1);
   const [category, setCategory] = useState("");
@@ -132,26 +136,31 @@ const Expenses = ({ expenses }) => {
 
   const lang = dict[language] || dict.en;
 
-  const handleVoidExpense = async (id) => {
-    setDeleteModal(false);
-  };
-
   const openDeleteModal = (id) => {
     setSelectedExpenseId(id);
     setDeleteModal(true);
   };
 
-  const months = lang.months.map((m, i) => ({ label: m, value: i + 1 }));
+  const months =
+    lang?.months?.map((m, i) => ({
+      label: m,
+      value: i + 1,
+    })) || [];
 
   const handleSearch = async () => {
     const result = await fetchExpenses(year, month);
     setExpenses(result.data || []);
     setCurrentPage(1);
   };
+  const filteredExpenses = (expenses || []).filter((exp) => {
+    if (!category) return true;
 
-  const filteredExpenses = (expenses || []).filter((exp) =>
-    category ? exp.category === category : true,
-  );
+    if (category === "Other") {
+      return !officialCategoryNames.includes(exp.category);
+    }
+
+    return exp.category === category;
+  });
 
   const totalPages = Math.ceil(filteredExpenses.length / itemsPerPage);
   const currentExpenses = filteredExpenses.slice(
@@ -174,15 +183,6 @@ const Expenses = ({ expenses }) => {
           </p>
         </div>
 
-        <div className="flex-1 flex justify-center">
-          <button
-            onClick={() => setCreateModal(true)}
-            className="bg-white text-slate-600 font-semibold px-8 py-2.5 rounded-full shadow-sm hover:bg-gray-50 transition border border-gray-100 active:scale-95 whitespace-nowrap"
-          >
-            {lang.newBtn}
-          </button>
-        </div>
-
         <div className="text-center md:text-right">
           <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest">
             {lang.totalSpent}
@@ -190,6 +190,15 @@ const Expenses = ({ expenses }) => {
           <p className="text-2xl font-black">
             {totalAmount} <span className="text-sm text-gray-400">MKD</span>
           </p>
+        </div>
+
+        <div className=" flex justify-center">
+          <button
+            onClick={() => setCreateModal(true)}
+            className="bg-white text-slate-600 font-semibold px-8 py-2.5 rounded-full shadow-sm hover:bg-gray-50 transition border border-gray-100 active:scale-95 whitespace-nowrap"
+          >
+            {lang.newBtn}
+          </button>
         </div>
       </div>
 

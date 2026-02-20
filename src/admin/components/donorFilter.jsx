@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef, useEffect } from "react";
 import arrow from "../../assets/icons/arrow.png";
 import searchIcon from "../../assets/icons/search.png";
 import useAdminStore from "../services/store/adminStore";
@@ -18,6 +18,22 @@ const DonorFilter = ({
   months,
 }) => {
   const { language } = useAdminStore();
+
+  const filterRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (filterRef.current && !filterRef.current.contains(event.target)) {
+        setToggleYear(false);
+        setToggleMonth(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   const dict = {
     en: {
@@ -46,7 +62,10 @@ const DonorFilter = ({
     <div className="shadow-lg h-40 p-4 col-span-1 lg:col-span-2 lg:h-32 bg-white rounded-4xl mb-7 border border-gray-50">
       <div className="grid grid-cols-2 lg:grid-cols-3">
         {/* YEAR */}
-        <div className="h-20 flex flex-col bg-white px-2 col-span-1 relative">
+        <div
+          ref={filterRef}
+          className="h-20 flex flex-col bg-white px-2 col-span-1 relative"
+        >
           <p className="text-xs lg:text-md ml-1 mb-1 font-bold text-gray-400 uppercase">
             {lang.year}
           </p>
@@ -87,7 +106,10 @@ const DonorFilter = ({
         </div>
 
         {/* MONTH */}
-        <div className="h-20 flex flex-col bg-white px-2 col-span-1 relative">
+        <div
+          ref={filterRef}
+          className="h-20 flex flex-col bg-white px-2 col-span-1 relative"
+        >
           <p className="text-xs lg:text-md ml-1 mb-1 font-bold text-gray-400 uppercase">
             {lang.month}
           </p>

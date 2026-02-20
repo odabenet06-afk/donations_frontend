@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import createDonation from "../services/functions/createDonation";
 
 import fetchDonors from "../services/functions/fetchDonors";
@@ -13,11 +13,24 @@ const CreateDonationModal = ({ onClose }) => {
   const [receipt, setReceipt] = useState("");
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(false);
-
+  const filterRef = useRef(null);
   const [toggleProject, setToggleProject] = useState(false);
   const [donorSearch, setDonorSearch] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const [selectedDonor, setSelectedDonor] = useState(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (filterRef.current && !filterRef.current.contains(event.target)) {
+        setToggleProject(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   const dict = {
     en: {
@@ -190,7 +203,7 @@ const CreateDonationModal = ({ onClose }) => {
           </div>
 
           {/* PROJECT DROPDOWN */}
-          <div className="relative">
+          <div ref={filterRef} className="relative">
             <label className="text-sm font-semibold text-gray-600 mb-1 block">
               {lang.project}
             </label>
@@ -241,12 +254,9 @@ const CreateDonationModal = ({ onClose }) => {
               <label className="text-sm font-semibold text-gray-600 mb-1 block">
                 {lang.currency}
               </label>
-              <input
-                type="text"
-                value={currency}
-                onChange={(e) => setCurrency(e.target.value.toUpperCase())}
-                className="border border-gray-300 rounded-xl p-3 w-full font-medium"
-              />
+              <div className="border border-gray-300 rounded-xl p-3 w-full font-medium">
+                {currency}
+              </div>
             </div>
           </div>
 

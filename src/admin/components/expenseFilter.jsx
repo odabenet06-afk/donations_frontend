@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import arrow from "../../assets/icons/arrow.png";
 import useAdminStore from "../services/store/adminStore";
 
@@ -18,7 +18,37 @@ const ExpenseFilter = ({
   months,
   handleSearch,
 }) => {
-  const { language } = useAdminStore();
+  const { language, categories: cat } = useAdminStore();
+  const yearRef = useRef(null);
+  const monthRef = useRef(null);
+  const catRef = useRef(null);
+  const enCategories = cat?.map((c) => c.en);
+  enCategories.push("Other");
+
+  const sqCategories = cat?.map((c) => c.sq);
+  sqCategories.push("Tjetër");
+
+  const mkCategories = cat?.map((c) => c.mk);
+  mkCategories.push("Друго");
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        yearRef.current &&
+        !yearRef.current.contains(event.target) &&
+        monthRef.current &&
+        !monthRef.current.contains(event.target) &&
+        catRef.current &&
+        !catRef.current.contains(event.target)
+      ) {
+        setToggleYear(false);
+        setToggleMonth(false);
+        setToggleCat(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
   const dict = {
     en: {
@@ -28,14 +58,7 @@ const ExpenseFilter = ({
       allMonths: "All Months",
       allCats: "All Categories",
       search: "Search",
-      categories: [
-        "Salary",
-        "Office materials",
-        "Transportation",
-        "Family support",
-        "Project investment",
-        "Other",
-      ],
+      categories: enCategories,
     },
     sq: {
       year: "Viti",
@@ -44,14 +67,7 @@ const ExpenseFilter = ({
       allMonths: "Të gjithë muajt",
       allCats: "Të gjitha kategoritë",
       search: "Kërko",
-      categories: [
-        "Paga",
-        "Materiale zyre",
-        "Transporti",
-        "Përkrahje familjare",
-        "Investim në projekt",
-        "Tjetër",
-      ],
+      categories: sqCategories,
     },
     mk: {
       year: "Година",
@@ -60,14 +76,7 @@ const ExpenseFilter = ({
       allMonths: "Сите месеци",
       allCats: "Сите категории",
       search: "Пребарај",
-      categories: [
-        "Плата",
-        "Канцелариски материјали",
-        "Транспорт",
-        "Семејна поддршка",
-        "Инвестиција во проект",
-        "Друго",
-      ],
+      categories: mkCategories,
     },
   };
 
@@ -79,7 +88,7 @@ const ExpenseFilter = ({
     <div className="shadow-lg p-4 bg-white rounded-4xl mb-7 border border-gray-50">
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         {/* YEAR */}
-        <div className="flex flex-col relative">
+        <div ref={yearRef} className="flex flex-col relative">
           <p className="text-xs ml-1 mb-1 font-bold text-gray-400 uppercase">
             {lang.year}
           </p>
@@ -117,7 +126,7 @@ const ExpenseFilter = ({
         </div>
 
         {/* MONTH */}
-        <div className="flex flex-col relative">
+        <div ref={monthRef} className="flex flex-col relative">
           <p className="text-xs ml-1 mb-1 font-bold text-gray-400 uppercase">
             {lang.month}
           </p>
@@ -164,7 +173,7 @@ const ExpenseFilter = ({
         </div>
 
         {/* CATEGORY */}
-        <div className="flex flex-col relative">
+        <div ref={catRef} className="flex flex-col relative">
           <p className="text-xs ml-1 mb-1 font-bold text-gray-400 uppercase">
             {lang.category}
           </p>
@@ -201,7 +210,7 @@ const ExpenseFilter = ({
                   key={cat}
                   className="w-full text-left px-3 py-2 text-sm hover:bg-gray-50 rounded-lg"
                   onClick={() => {
-                    setCategory(cat); 
+                    setCategory(cat);
                     setToggleCat(false);
                   }}
                 >

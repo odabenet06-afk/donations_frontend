@@ -9,16 +9,15 @@ import useAdminStore from "../services/store/adminStore";
 const Project = ({ prjct, i }) => {
   const [editModal, setEditModal] = useState(false);
   const [deleteModal, setDeleteModal] = useState(false);
-  const { role, language } = useAdminStore(); // Pulled language from store
+  const { role, language } = useAdminStore(); 
 
-  // Translation Dictionary
   const dict = {
     en: {
       start: "Start",
       end: "End",
       status: "Status",
       ongoing: "Ongoing",
-      // Status options
+
       active: "Active",
       completed: "Completed",
     },
@@ -27,7 +26,7 @@ const Project = ({ prjct, i }) => {
       end: "Mbarimi",
       status: "Statusi",
       ongoing: "Në vazhdim",
-      // Status options
+ 
       active: "Aktiv",
       completed: "I përfunduar",
     },
@@ -36,7 +35,7 @@ const Project = ({ prjct, i }) => {
       end: "Крај",
       status: "Статус",
       ongoing: "Во тек",
-      // Status options
+
       active: "Активен",
       completed: "Завршен",
     }
@@ -44,7 +43,7 @@ const Project = ({ prjct, i }) => {
 
   const lang = dict[language] || dict.en;
 
-  // Helper to translate the status value coming from DB
+ 
   const translateStatus = (status) => {
     const s = status?.toLowerCase();
     return lang[s] || status;
