@@ -4,6 +4,7 @@ import useAdminStore from "../services/store/adminStore";
 import x from "../../assets/icons/x.png";
 import openHands from "../../assets/icons/openHands.png";
 import useData from "../../ledger/hooks/useData";
+import Footer from "../../ledger/components/footer"
 
 const AdminRoot = () => {
   const today = new Date();
@@ -187,6 +188,7 @@ const AdminRoot = () => {
 
         <section className="flex-1">
           <Outlet />
+          <Footer />
         </section>
       </main>
     </div>
